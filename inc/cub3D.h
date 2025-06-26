@@ -45,9 +45,10 @@ typedef struct s_lines
 
 typedef struct s_floor
 {
-	int	r;
-	int	g;
-	int	b;
+	char	*setter;
+	int		r;
+	int		g;
+	int		b;
 }		t_floor;
 
 typedef struct s_ceiling
@@ -85,5 +86,6 @@ int		check_file(char *av, t_cub3D *data);
 void	check_map(char *av, t_cub3D *data);
 void	copy_map(t_lines *list, t_cub3D *data);
 void	take_fc(char *colours, t_cub3D *data, int flag);
+void	take_path(char *path, char *to_take);
 
 #endif

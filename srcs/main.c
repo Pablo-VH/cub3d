@@ -14,14 +14,11 @@
 
 int	main(int ac, char **av)
 {
-	t_cub3D	data;
+	t_cub3D	*data;
 
-	if (ac == 2)
-	{
-		ft_memset(&data, 0, sizeof(t_cub3D));
-		check_map(av[1], &data);
-	}
-	else
+	if (ac != 2)
 		return (1);
-	return (0);
+	data = ft_alloc(sizeof(t_cub3D), 1);
+	check_map(av[1], &data);
+	ft_alloc(0, 0);
 }

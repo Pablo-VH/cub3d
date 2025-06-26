@@ -14,18 +14,16 @@
 
 void	check_elements2(t_lines *list, t_cub3D *data)
 {
-	if (data->we > 0)
-	{
-		if (!ft_strncmp(list->str, "EA ", 3))
-		{
-			data->ea++;
-			take_path(data->p_ea, list->str);
-		}
-	}
+
 	if (!ft_strncmp(list->str, "WE ", 3))
 	{
 		data->we++;
 		take_path(data->p_we, list->str);
+	}
+	else if (!ft_strncmp(list->str, "EA ", 3))
+	{
+		data->ea++;
+		take_path(data->p_ea, list->str);
 	}
 }
 
@@ -33,19 +31,20 @@ void	check_fc(t_lines *list, t_cub3D *data)
 {
 	while (list)
 	{
-		if (data->f > 0)
+		if (!ft_strncmp(list->str, "C ", 2))
 		{
-			if (!ft_strncmp(list->str, "C ", 2))
-			{
-				data->f++;
-				take_fc(list->str, data, CEILING);
-			}
+			data->c++;
+			take_fc(list->str, data, CEILING);
 		}
 		if (!ft_strncmp(list->str, "F ", 2))
 		{
 			data->f++;
 			take_fc(list->str, data, FLOOR);
 		}
+		if (ft_strncmp(list->str, "C ", 2) && ft_strncmp(list->str, "F ", 2)
+			&& ft_strncmp(list->str, "NO ", 2) && ft_strncmp(list->str, "SO ", 2)
+			&& ft_strncmp(list->str, "WE ", 2) && ft_strncmp(list->str, "EA ", 2))
+			break ;
 		list = list->next;
 	}
 	if (data->f != 1 || data->c != 1)
@@ -71,21 +70,18 @@ void	check_elements(t_lines *list, t_cub3D *data)
 {
 	while (list)
 	{
-		if (data->no > 0)
-		{
-			if (data->so > 0)
-				check_elements2(list, data);
-			if (!ft_strncmp(list->str, "SO ", 3))
-			{
-				data->so++;
-				take_path(data->p_so, list->str);
-			}
-		}
 		if (!ft_strncmp(list->str, "NO ", 3))
 		{
 			data->no++;
 			take_path(data->p_no, list->str);
 		}
+		else if (!ft_strncmp(list->str, "SO ", 3))
+		{
+			data->so++;
+			take_path(data->p_so, list->str);
+		}
+		else
+			check_elements2(list, data);
 		list = list->next;
 	}
 	if (data->no != 1 || data->so != 1 || data->we != 1 || data->ea != 1)
@@ -96,9 +92,9 @@ void	check_map(char *av, t_cub3D *data)
 {
 	t_lines	*init;
 
-	init = data->file;
-	//check av
+	ft_check_extention(av, ".cub");
 	check_file(av, data);
+	init = data->file;
 	check_elements(data->file, data);
 	data->file = init;
 	check_fc(data->file, data);

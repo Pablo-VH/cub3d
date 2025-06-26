@@ -19,12 +19,12 @@ void	take_path(char *path, char *to_take)
 	i = 0;
 	if (path)
 		return ;
-	while (to_take[i])
+	/*while (to_take[i])
 	{
 		if (i >= 2 && to_take[i] && ft_isspace(to_take[i]))
 			i++;
-	}
-	path = ft_substr(to_take, i, ft_strlen(to_take) - i);
+	}*/
+	path = ft_strtrim_p(to_take, " \t\v\f\r\n");
 }
 
 void	ft_add_back(t_cub3D *data, char *line, int i)
@@ -35,7 +35,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 	tmp = data->file;
 	if (!data->file)
 	{
-		data->file = ft_calloc(1, sizeof(data->file));
+		data->file = ft_alloc(sizeof(data->file), 1);
 		data->file->i = i;
 		data->file->str = line;
 		data->file->next = NULL;
@@ -44,7 +44,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 	{
 		while (data->file->next)
 			data->file = data->file->next;
-		new = ft_calloc(1, sizeof(data->file));
+		new = ft_alloc(sizeof(data->file), 1);
 		new->i = i;
 		new->str = line;
 		new->next = NULL;
@@ -59,12 +59,13 @@ int	check_file(char *av, t_cub3D *data)
 	int		i;
 
 	data->fd = open(av, O_RDONLY);
-	i = 1;
 	if (data->fd < 0)
 	{
-		perror("Cub3D: not such file or directory\n");
+		perror("Cub3D: no such file or directory\n");
+		ft_alloc(0, 0);
 		exit (EXIT_FAILURE);
 	}
+	i = 1;
 	while (1)
 	{
 		line = get_next_line(data->fd);
