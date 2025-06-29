@@ -18,7 +18,7 @@ MLX_LIB     := $(MLX_BUILD)/libmlx42.a
 LDFLAGS     := $(MLX_LIB) -ldl -lglfw -pthread -lm
 
 # --------------------🧱 Archivos --------------------
-SRCS_FILES  := main.c syntax_map.c checkers_init.c
+SRCS_FILES  := main.c syntax_map.c checkers_init.c check_file.c take_colours.c utils.c
 SRCS        := $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJS        := $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
 

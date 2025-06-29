@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../inc/cub3D.h"
 
 int		take_len(char *colours, int i, t_cub3D *data)
 {
@@ -41,7 +41,7 @@ void	take_blue(char *colours, int i, t_cub3D *data, int flag)
 		return (0);
 	j = 0;
 	len = take_len(colours, i, data);
-	tmp = ft_calloc(len + 1, sizeof(char));
+	tmp = ft_calloc((len + 1) * sizeof(char), 1);
 	if (len != 0)
 	{
 		while (colours[i] && len != 0)
@@ -69,7 +69,7 @@ int	take_green(char *colours, int i, t_cub3D *data, int flag)
 		return (0);
 	j = 0;
 	len = take_len(colours, i, data);
-	tmp = ft_calloc(len + 1, sizeof(char));
+	tmp = ft_calloc((len + 1) * sizeof(char), 1);
 	if (len != 0)
 	{
 		while (colours[i] != ',' && len != 0)
@@ -98,7 +98,7 @@ int	take_red(char *colours, int i, t_cub3D *data, int flag)
 		return (0);
 	j = 0;
 	len = take_len(colours, i, data);
-	tmp = ft_calloc(len + 1, sizeof(char));
+	tmp = ft_alloc((len + 1) * sizeof(char), 1);
 	if (len != 0)
 	{
 		while (colours[i] != ',' && len != 0)

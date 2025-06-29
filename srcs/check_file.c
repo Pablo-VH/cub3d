@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../inc/cub3D.h"
 
 void	take_path(char *path, char *to_take)
 {
@@ -29,10 +29,26 @@ void	take_path(char *path, char *to_take)
 
 void	ft_add_back(t_cub3D *data, char *line, int i)
 {
-	t_lines	*tmp;
-	t_lines	*new;
+	t_lines	*tmp; //probablemente innecesario
+	t_lines	*node;
+	//t_lines	*new;
 
-	tmp = data->file;
+	node = ft_alloc(sizeof(t_lines), 1);
+	node->i = i;
+	node->str = line;
+	node->next = NULL;
+
+	if (!data->file)
+	{
+		data->file = node;
+		return ;
+	}
+	tmp = data_file;//probablemente innecesario
+	while (data->file->next)
+		data->file = data->file->next;
+	data->file->next = node;
+	data->file = tmp;
+	/*tmp = data->file;
 	if (!data->file)
 	{
 		data->file = ft_alloc(sizeof(data->file), 1);
@@ -50,7 +66,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 		new->next = NULL;
 		data->file->next = new;
 	}
-	data->file = tmp;
+	data->file = tmp;*/
 }
 
 int	check_file(char *av, t_cub3D *data)
@@ -68,11 +84,12 @@ int	check_file(char *av, t_cub3D *data)
 	i = 1;
 	while (1)
 	{
-		line = get_next_line(data->fd);
+		line = get_next_line_p(data->fd, 0);
 		if (!line)
 			break ;
 		ft_add_back(data, line, i);
 		i++;
 	}
+	get_next_line_p(-1, 1);
 	close(data->fd);
 }

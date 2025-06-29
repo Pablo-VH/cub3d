@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/time.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include "MLX42.h"
 
 # define RED "\033[0;31m"
@@ -87,5 +87,6 @@ void	check_map(char *av, t_cub3D *data);
 void	copy_map(t_lines *list, t_cub3D *data);
 void	take_fc(char *colours, t_cub3D *data, int flag);
 void	take_path(char *path, char *to_take);
+void	ft_print_message_and_exit(char *s, int exit_key);
 
 #endif

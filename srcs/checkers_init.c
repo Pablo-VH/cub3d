@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../inc/cub3D.h"
 
 void	check_elements2(t_lines *list, t_cub3D *data)
 {
@@ -92,7 +92,6 @@ void	check_map(char *av, t_cub3D *data)
 {
 	t_lines	*init;
 
-	ft_check_extention(av, ".cub");
 	check_file(av, data);
 	init = data->file;
 	check_elements(data->file, data);

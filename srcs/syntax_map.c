@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../inc/cub3d.h"
 
 void	check_content(char	**str, t_cub3D *data)
 {
@@ -46,7 +46,7 @@ void	copy_map(t_lines *list, t_cub3D *data)
 	while (list->next)
 		list = list->next;
 	data->init = list->i;
-	data->map = ft_calloc(list->i, sizeof(char *));
+	data->map = ft_alloc(list->i * sizeof(char *), 1);
 	list = init;
 	while (list)
 	{

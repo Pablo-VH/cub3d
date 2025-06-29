@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../inc/cub3D.h"
 
 int	main(int ac, char **av)
 {
 	t_cub3D	*data;
 
-	if (ac != 2)
+	if (ac != 2 || !ft_check_extention(av[1], ".cub"));
 		return (1);
 	data = ft_alloc(sizeof(t_cub3D), 1);
 	check_map(av[1], &data);
