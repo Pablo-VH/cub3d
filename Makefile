@@ -18,7 +18,8 @@ MLX_LIB     := $(MLX_BUILD)/libmlx42.a
 LDFLAGS     := $(MLX_LIB) -ldl -lglfw -pthread -lm
 
 # --------------------🧱 Archivos --------------------
-SRCS_FILES  := main.c syntax_map.c checkers_init.c check_file.c take_colours.c utils.c
+SRCS_FILES  := main.c syntax_map.c checkers_init.c check_file.c take_colours.c utils.c\
+				utils_colors.c
 SRCS        := $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJS        := $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
 
@@ -27,7 +28,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(MLX_LIB) $(OBJS)
 	@echo "🎮 Compilando $(NAME)..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 	@echo "🚀 ¡Compilado con éxito!"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
@@ -48,7 +49,7 @@ $(MLX_LIB):
 
 clean:
 	@rm -rf $(OBJS_DIR)
-	@make clean -C $(LIBFT_DIR)
+	@make fclean -C $(LIBFT_DIR)
 	@rm -rf $(MLX_BUILD)
 	@echo "🧹 Clean hecho!"
 

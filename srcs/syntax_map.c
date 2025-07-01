@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "cub3D.h"
 
 void	check_content(char	**str, t_cub3D *data)
 {

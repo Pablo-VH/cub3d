@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 void	check_elements2(t_lines *list, t_cub3D *data)
 {
@@ -42,13 +42,16 @@ void	check_fc(t_lines *list, t_cub3D *data)
 			take_fc(list->str, data, FLOOR);
 		}
 		if (ft_strncmp(list->str, "C ", 2) && ft_strncmp(list->str, "F ", 2)
-			&& ft_strncmp(list->str, "NO ", 2) && ft_strncmp(list->str, "SO ", 2)
-			&& ft_strncmp(list->str, "WE ", 2) && ft_strncmp(list->str, "EA ", 2))
+			&& ft_strncmp(list->str, "NO ", 3) && ft_strncmp(list->str, "SO ", 3)
+			&& ft_strncmp(list->str, "WE ", 3) && ft_strncmp(list->str, "EA ", 3)
+			&& ft_strncmp(list->str, "\n", 2))
 			break ;
 		list = list->next;
 	}
 	if (data->f != 1 || data->c != 1)
-		data->err = true;
+		ft_print_message_and_exit("Invalid parameters", 4);
+	check_colors(data);
+	
 }
 
 void	check_intro(t_lines *list)
@@ -85,7 +88,7 @@ void	check_elements(t_lines *list, t_cub3D *data)
 		list = list->next;
 	}
 	if (data->no != 1 || data->so != 1 || data->we != 1 || data->ea != 1)
-		data->err = true;
+		ft_print_message_and_exit("Invalid parameters", 3);
 }
 
 void	check_map(char *av, t_cub3D *data)
@@ -100,5 +103,5 @@ void	check_map(char *av, t_cub3D *data)
 	check_intro(data->file);
 	copy_map(data->file, data);
 	data->file = init;
-	check_content(data->map);
+	check_content(data->map, data);
 }

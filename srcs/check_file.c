@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 void	take_path(char *path, char *to_take)
 {
-	size_t	i;
+	//size_t	i;
 
-	i = 0;
+	//i = 0;
 	if (path)
 		return ;
 	/*while (to_take[i])
@@ -43,7 +43,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 		data->file = node;
 		return ;
 	}
-	tmp = data_file;//probablemente innecesario
+	tmp = data->file;//probablemente innecesario
 	while (data->file->next)
 		data->file = data->file->next;
 	data->file->next = node;
@@ -69,7 +69,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 	data->file = tmp;*/
 }
 
-int	check_file(char *av, t_cub3D *data)
+void	check_file(char *av, t_cub3D *data)
 {
 	char	*line;
 	int		i;

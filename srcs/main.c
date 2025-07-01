@@ -10,15 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "cub3D.h"
 
 int	main(int ac, char **av)
 {
 	t_cub3D	*data;
 
-	if (ac != 2 || !ft_check_extention(av[1], ".cub"));
-		return (1);
+	if (ac != 2)
+		ft_print_message_and_exit("Too many or no arguments", 1);
+	if (!ft_check_extention(av[1], ".cub"))
+		ft_print_message_and_exit("Not valid .cub extention", 1);
 	data = ft_alloc(sizeof(t_cub3D), 1);
-	check_map(av[1], &data);
+	check_map(av[1], data);
 	ft_alloc(0, 0);
 }

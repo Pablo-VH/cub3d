@@ -36,11 +36,19 @@ typedef enum s_fc
 	CEILING
 }	t_fc;
 
+typedef enum s_states
+{
+	N_ERR,
+	N_NUM,
+	N_SYM,
+	N_SPA,
+}	t_states;
+
 typedef struct s_lines
 {
 	int				i;
 	char			*str;
-	struct t_lines	*next;
+	struct s_lines	*next;
 }					t_lines;
 
 typedef struct s_floor
@@ -81,9 +89,11 @@ typedef struct s_cub3D
 }				t_cub3D;
 
 
-int		check_file(char *av, t_cub3D *data);
-
+void	check_colors(t_cub3D *data);
+void	check_content(char	**str, t_cub3D *data);
+void	check_file(char *av, t_cub3D *data);
 void	check_map(char *av, t_cub3D *data);
+void	check_num(char *str);
 void	copy_map(t_lines *list, t_cub3D *data);
 void	take_fc(char *colours, t_cub3D *data, int flag);
 void	take_path(char *path, char *to_take);
