@@ -94,6 +94,7 @@ void	check_elements(t_lines *list, t_cub3D *data)
 void	check_map(char *av, t_cub3D *data)
 {
 	t_lines	*init;
+	int	i = 0;
 
 	check_file(av, data);
 	init = data->file;
@@ -104,4 +105,9 @@ void	check_map(char *av, t_cub3D *data)
 	copy_map(data->file, data);
 	data->file = init;
 	check_content(data->map, data);
+	while (data->map[i])
+	{
+		printf("%s\n", data->map[i]);
+		i++;
+	}
 }
