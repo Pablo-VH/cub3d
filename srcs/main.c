@@ -17,7 +17,7 @@ int	main(int ac, char **av)
 	t_cub3D	*data;
 
 	if (ac != 2)
-		ft_print_message_and_exit("Too many or no arguments", 1);
+		ft_print_message_and_exit("Incorrect number of arguments", 1);
 	if (!ft_check_extention(av[1], ".cub"))
 		ft_print_message_and_exit("Not valid .cub extention", 1);
 	data = ft_alloc(sizeof(t_cub3D), 1);

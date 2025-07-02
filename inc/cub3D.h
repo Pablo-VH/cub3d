@@ -96,7 +96,8 @@ void	check_map(char *av, t_cub3D *data);
 void	check_num(char *str);
 void	copy_map(t_lines *list, t_cub3D *data);
 void	take_fc(char *colours, t_cub3D *data, int flag);
-void	take_path(char *path, char *to_take);
+void	get_path(char *path, char *to_take);
+void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
 
 #endif

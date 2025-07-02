@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-void	take_path(char *path, char *to_take)
+void	get_path(char *path, char *to_take)
 {
 	//size_t	i;
 
@@ -29,9 +29,8 @@ void	take_path(char *path, char *to_take)
 
 void	ft_add_back(t_cub3D *data, char *line, int i)
 {
-	t_lines	*tmp; //probablemente innecesario
+	t_lines	*tmp;
 	t_lines	*node;
-	//t_lines	*new;
 
 	node = ft_alloc(sizeof(t_lines), 1);
 	node->i = i;
@@ -43,30 +42,11 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 		data->file = node;
 		return ;
 	}
-	tmp = data->file;//probablemente innecesario
+	tmp = data->file;
 	while (data->file->next)
 		data->file = data->file->next;
 	data->file->next = node;
 	data->file = tmp;
-	/*tmp = data->file;
-	if (!data->file)
-	{
-		data->file = ft_alloc(sizeof(data->file), 1);
-		data->file->i = i;
-		data->file->str = line;
-		data->file->next = NULL;
-	}
-	else
-	{
-		while (data->file->next)
-			data->file = data->file->next;
-		new = ft_alloc(sizeof(data->file), 1);
-		new->i = i;
-		new->str = line;
-		new->next = NULL;
-		data->file->next = new;
-	}
-	data->file = tmp;*/
 }
 
 void	check_file(char *av, t_cub3D *data)
@@ -76,15 +56,11 @@ void	check_file(char *av, t_cub3D *data)
 
 	data->fd = open(av, O_RDONLY);
 	if (data->fd < 0)
-	{
-		perror("Cub3D: no such file or directory\n");
-		ft_alloc(0, 0);
-		exit (EXIT_FAILURE);
-	}
+		ft_perror_and_exit("Cub3d", 9);
 	i = 1;
 	while (1)
 	{
-		line = get_next_line_p(data->fd, 0);
+		line = ft_strtrim_p(get_next_line_p(data->fd, 0), " \t\v\f\r");
 		if (!line)
 			break ;
 		ft_add_back(data, line, i);

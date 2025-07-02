@@ -18,12 +18,12 @@ void	check_elements2(t_lines *list, t_cub3D *data)
 	if (!ft_strncmp(list->str, "WE ", 3))
 	{
 		data->we++;
-		take_path(data->p_we, list->str);
+		get_path(data->p_we, list->str);
 	}
 	else if (!ft_strncmp(list->str, "EA ", 3))
 	{
 		data->ea++;
-		take_path(data->p_ea, list->str);
+		get_path(data->p_ea, list->str);
 	}
 }
 
@@ -76,12 +76,12 @@ void	check_elements(t_lines *list, t_cub3D *data)
 		if (!ft_strncmp(list->str, "NO ", 3))
 		{
 			data->no++;
-			take_path(data->p_no, list->str);
+			get_path(data->p_no, list->str);
 		}
 		else if (!ft_strncmp(list->str, "SO ", 3))
 		{
 			data->so++;
-			take_path(data->p_so, list->str);
+			get_path(data->p_so, list->str);
 		}
 		else
 			check_elements2(list, data);
