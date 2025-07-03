@@ -1,7 +1,7 @@
 # --------------------🎮 Configuración --------------------
 NAME        := cub3D
 CC          := cc
-CFLAGS      := -Wall -Wextra -Werror -Ofast
+CFLAGS      := -Wall -Wextra -Werror -Ofast -fsanitize="address,leak" -g3
 
 # --------------------📁 Directorios --------------------
 INC         := inc/

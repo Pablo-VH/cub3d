@@ -12,45 +12,47 @@
 
 #include "cub3D.h"
 
-
 int	check_state(int prev, int pos)
 {
 	static int	state[][4] = {
-		{N_ERR, N_NUM, N_SYM, N_SPA}, //INI prev = 0
-		{N_ERR, N_NUM, N_SP2, N_ERR}, //ISDIGIT prev = 1
-		{N_ERR, N_NUM, N_SYM, N_SPA}, //ISSPACE prev = 2
-		{N_ERR, N_NUM, N_ERR, N_ERR},
-		{N_ERR, N_ERR, N_SP2, N_ERR}
+	{N_ERR, N_NUM, N_SYM, N_SPA},
+	{N_ERR, N_NUM, N_SP2, N_ERR},
+	{N_ERR, N_NUM, N_SYM, N_SPA},
+	{N_ERR, N_NUM, N_ERR, N_ERR},
+	{N_ERR, N_ERR, N_SP2, N_ERR}
 	};
+
 	return (state[prev][pos]);
 }
 
-int	take_state(int prev, char c)
+int	get_state(int prev, char c)
 {
-	int	now;
+	int	current;
 
-	now = 0;
+	current = 0;
 	if (ft_isdigit(c))
-		now = 1;
+		current = 1;
 	else if (ft_isspace(c))
-		now = 2;
-	else if (c == '+')
-		now = 3;
-	return (check_state(prev, now));
+		current = 2;
+	else if (c == '-' || c == '+')
+		current = 3;
+	return (check_state(prev, current));
 }
 
-void	check_num(char **str)
+void	check_num(char **line)
 {
-	int	state;
+	int		state;
 
 	state = 0;
-	while (**str && **str != '\n' && **str != ',')
+	while (**line && **line != ',')
 	{
-		state = take_state(state, **str);
+		state = get_state(state, **line);
 		if (state == 0)
-			ft_print_message_and_exit("Invalid number", 7);
-		(*str)++;
+			ft_print_message_and_exit("Invalid rgb number", 7);
+		(*line)++;
 	}
+	if (**line == ',')
+		(*line)++;
 }
 
 /*
@@ -78,17 +80,17 @@ void	check_color_input_validity(t_rgb *colors)
 		|| colors->b < 0 || colors->b > 255)
 	{
 		get_next_line_p(-1, 1);
-		ft_print_message_and_exit("Invalid color input", 17);
+		ft_print_message_and_exit("Invalid rgb number", 17);
 	}
 }
 
 void	charge_color_data(int num_of_colors, t_rgb *colors, char *line)
 {
 	if (num_of_colors == 1)
-		colors->r = ft_atoi(line);
+		colors->r = ft_atoi(ft_strtrim_p(line, " \t\v\f\r"));
 	if (num_of_colors == 2)
-		colors->g = ft_atoi(line);
+		colors->g = ft_atoi(ft_strtrim_p(line, " \t\v\f\r"));
 	if (num_of_colors == 3)
-		colors->b = ft_atoi(line);
+		colors->b = ft_atoi(ft_strtrim_p(line, " \t\v\f\r"));
 	check_color_input_validity(colors);
 }

@@ -34,7 +34,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 
 	node = ft_alloc(sizeof(t_lines), 1);
 	node->i = i;
-	node->str = line;
+	node->str = ft_strdup_p(line);
 	node->next = NULL;
 	if (!data->file)
 	{
@@ -96,6 +96,7 @@ int	check_line(char *line, t_cub3D *data)
 void	check_file(char *av, t_cub3D *data)
 {
 	char	*line;
+	char	*line_brut;
 	int		i;
 
 	data->fd = open(av, O_RDONLY);
@@ -104,9 +105,14 @@ void	check_file(char *av, t_cub3D *data)
 	i = 1;
 	while (1)
 	{
-		line = ft_strtrim_p(get_next_line_p(data->fd, 0), " \t\v\f\r\n");
+		line_brut = get_next_line_p(data->fd, 0);
+		line = ft_strtrim_p(line_brut, " \t\v\f\r\n");
+		free(line_brut);
 		if (!line)
+		{
+			//get_next_line_p(-1, 1);
 			ft_print_message_and_exit("Map not found", 13);
+		}
 		ft_add_back(data, line, i);
 		if (check_line(line, data))
 		{
@@ -120,11 +126,34 @@ void	check_file(char *av, t_cub3D *data)
 			printf("%i\n",data->f_colours.r);
 			printf("%i\n",data->f_colours.g);
 			printf("%i\n",data->f_colours.b);
+			line = get_next_line_p(data->fd, 0);
 			break ;
 		}
+		//free(line);
 		i++;
 	}
-	//copiar mapa
+	while (*line == '\0')
+	{
+		free(line);
+		line = get_next_line_p(data->fd, 0);
+		if (!line)
+		{
+			get_next_line_p(-1, 1);
+			close(data->fd);
+			ft_print_message_and_exit("Map not found", 13);
+		}
+	}
+	while (line)
+	{
+		copy_map(line, data);
+		free(line);
+		line = get_next_line_p(data->fd, 0);
+	}
+	while (data->map)
+	{
+		printf("%s", (char *)data->map->content);
+		data->map = data->map->next;
+	}
 	get_next_line_p(-1, 1);
 	close(data->fd);
 }

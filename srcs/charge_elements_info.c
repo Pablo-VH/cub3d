@@ -1,8 +1,8 @@
 #include "cub3D.h"
 
-void	check_and_charge_wall_info(char *line, char **recipient, char *beginning)
+void	check_and_charge_wall_info(char *line, char **recipient, char *def)
 {
-	line = ft_strtrim_p(line, beginning);
+	line = ft_strtrim_p(line, def);
 	while (ft_isspace(*line))
 		line++;
 	if (!*line || ft_strchr(line, ' ') || ft_strchr(line, '\t')
@@ -12,41 +12,24 @@ void	check_and_charge_wall_info(char *line, char **recipient, char *beginning)
 		get_next_line_p(-1, 1);
 		ft_print_message_and_exit("Invalid wall texture", 14);
 	}
-	*recipient = line;
+	*recipient = ft_strdup_p(line);
 }
 
-void	check_character_validity(char *line)
+void	check_and_charge_color_info(char *line, t_rgb *colors, char *def)
 {
-	if ((*line != '+' && !ft_isdigit(*line))
-		|| (*line == '+' && (*(line + 1) == '\0'))
-		|| (*line == '+' && *(line + 1) && !ft_isdigit(*(line + 1))))
-	{
-		get_next_line_p(-1, 1);
-		ft_print_message_and_exit("Invalid rgb colors", 16);
-	}
-}
+	int		num_of_colors;
+	char	*beginning;
 
-void	check_and_charge_color_info(char *line, t_rgb *colors, char *beginning)
-{
-	int	num_of_colors;
-
-	line = ft_strtrim_p(line, beginning);
+	line = ft_strtrim_p(line, def);
 	num_of_colors = 0;
 	while (*line)
 	{
-		while(ft_isspace(*line))
-			line++;
-		check_character_validity(line);
+		beginning = line;
+		check_num(&line);
 		num_of_colors++;
 		if (num_of_colors > 3)
 			break ;
-		charge_color_data(num_of_colors, colors, line);
-		while (*line && *line != ',')
-		{
-			//check_character_validity(line);
-			check_num(&line);
-		}
-		line++;
+		charge_color_data(num_of_colors, colors, beginning);
 	}
 	if (num_of_colors != 3 )
 	{

@@ -55,3 +55,13 @@ void	copy_map(t_lines *list, t_cub3D *data)
 		list = list->next;
 	}
 }*/
+
+void	copy_map(char *line, t_cub3D *data)
+{
+	t_list	*node;
+	char	*content;
+
+	content = ft_strdup_p(line);
+	node = ft_lstnew_p(content);
+	ft_lstadd_back(&data->map, node);
+}
