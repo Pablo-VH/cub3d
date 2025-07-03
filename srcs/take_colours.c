@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+/*#include "cub3D.h"
 
 int		take_len(char *colours, int i, t_cub3D *data)
 {
@@ -121,7 +121,7 @@ int	iter_colours(char *colours, int i)
 	return (i);
 }
 
-void	check_line(char *colours, int i)
+static void	check_line(char *colours, int i)
 {
 	int	j;
 
@@ -158,4 +158,4 @@ void	take_fc(char *colours, t_cub3D *data, int flag)
 	}
 	else
 		ft_print_message_and_exit("Colors not included", 5);
-}
+}*/

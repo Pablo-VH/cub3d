@@ -27,3 +27,15 @@ void	ft_perror_and_exit(char *s, int exit_key)
 	ft_alloc(0, 0);
 	exit (exit_key);
 }
+
+void	check_elements(char *line)
+{
+	if (ft_strncmp(line, "C ", 2) && ft_strncmp(line, "F ", 2)
+		&& ft_strncmp(line, "NO ", 3) && ft_strncmp(line, "SO ", 3)
+		&& ft_strncmp(line, "WE ", 3) && ft_strncmp(line, "EA ", 3)
+		&& ft_strncmp(line, "\0", 2))
+	{
+		get_next_line_p(-1, 1);
+		ft_print_message_and_exit("Invalid line", 11);
+	}
+}

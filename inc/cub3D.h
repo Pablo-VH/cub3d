@@ -42,6 +42,7 @@ typedef enum s_states
 	N_NUM,
 	N_SYM,
 	N_SPA,
+	N_SP2,
 }	t_states;
 
 typedef struct s_lines
@@ -51,7 +52,7 @@ typedef struct s_lines
 	struct s_lines	*next;
 }					t_lines;
 
-typedef struct s_floor
+/*typedef struct s_floor
 {
 	char	*setter;
 	int		r;
@@ -64,39 +65,49 @@ typedef struct s_ceiling
 	int	r;
 	int	g;
 	int	b;
-}		t_ceiling;
+}		t_ceiling;*/
+
+typedef struct s_rgb
+{
+	int	r;
+	int	g;
+	int	b;
+}		t_rgb;
 
 typedef struct s_cub3D
 {
 	t_lines		*file;
-	t_floor		f_colours;
-	t_ceiling	c_colours;
+	t_rgb		f_colours;
+	t_rgb		c_colours;
 	char		**map;
 	char		*p_no;
 	char		*p_so;
 	char		*p_we;
 	char		*p_ea;
 	int			fd;
-	int			no;
-	int			so;
-	int			we;
-	int			ea;
-	int			f;
-	int			c;
+	//int			no;
+	//int			so;
+	//int			we;
+	//int			ea;
+	//int			f;
+	//int			c;
 	int			init;
 	int			max_len;
 	bool		err;
 }				t_cub3D;
 
-
-void	check_colors(t_cub3D *data);
-void	check_content(char	**str, t_cub3D *data);
+void	charge_color_data(int num_of_colors, t_rgb *colors, char *line);
+void	check_color_input_validity(t_rgb *colors);
+void	check_elements(char *line);
+void	charge_info(t_cub3D *data);
+//void	check_colors(t_cub3D *data);
+//void	check_content(char	**str, t_cub3D *data);
 void	check_file(char *av, t_cub3D *data);
 void	check_map(char *av, t_cub3D *data);
-void	check_num(char *str);
-void	copy_map(t_lines *list, t_cub3D *data);
-void	take_fc(char *colours, t_cub3D *data, int flag);
-void	get_path(char *path, char *to_take);
+void	check_num(char **str);
+//void	copy_map(t_lines *list, t_cub3D *data);
+//void	take_fc(char *colours, t_cub3D *data, int flag);
+//void	get_path(char *path, char *to_take);
 void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
 

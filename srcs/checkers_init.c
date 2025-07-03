@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
+/*
 void	check_elements2(t_lines *list, t_cub3D *data)
 {
 
@@ -89,15 +89,15 @@ void	check_elements(t_lines *list, t_cub3D *data)
 	}
 	if (data->no != 1 || data->so != 1 || data->we != 1 || data->ea != 1)
 		ft_print_message_and_exit("Invalid parameters", 3);
-}
+}*/
 
 void	check_map(char *av, t_cub3D *data)
 {
-	t_lines	*init;
-	int	i = 0;
+	//t_lines	*init;
+	//int	i = 0;
 
 	check_file(av, data);
-	init = data->file;
+	/*init = data->file;
 	check_elements(data->file, data);
 	data->file = init;
 	check_fc(data->file, data);
@@ -109,5 +109,5 @@ void	check_map(char *av, t_cub3D *data)
 	{
 		printf("%s\n", data->map[i]);
 		i++;
-	}
+	}*/
 }

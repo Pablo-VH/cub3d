@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
+/*
 void	check_content(char	**str, t_cub3D *data)
 {
 	int	i;
@@ -54,4 +54,4 @@ void	copy_map(t_lines *list, t_cub3D *data)
 		i++;
 		list = list->next;
 	}
-}
+}*/
