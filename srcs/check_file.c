@@ -34,7 +34,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 
 	node = ft_alloc(sizeof(t_lines), 1);
 	node->i = i;
-	node->str = ft_strdup_p(line);
+	node->str = line;
 	node->next = NULL;
 	if (!data->file)
 	{
@@ -48,7 +48,7 @@ void	ft_add_back(t_cub3D *data, char *line, int i)
 	data->file = tmp;
 }
 
-int	count_elements(const int *elements)
+int	count_elements(const int *elements, t_cub3D *data)
 {
 	int	i;
 	int	num_of_elements;
@@ -58,10 +58,7 @@ int	count_elements(const int *elements)
 	while (i < 6)
 	{
 		if (elements[i] > 1)
-		{
-			get_next_line_p(-1, 1);
-			ft_print_message_and_exit("Repeated elements", 12);
-		}
+			ft_close_fd_and_exit("Repeated elements", 12, data);
 		num_of_elements += elements[i];
 		i++;
 	}
@@ -85,7 +82,7 @@ int	check_line(char *line, t_cub3D *data)
 		elements[4]++;
 	if (!ft_strncmp(line, "C ", 2))
 		elements[5]++;
-	if (count_elements(elements) == 6)
+	if (count_elements(elements, data) == 6)
 	{
 		charge_info(data);
 		return (1);
@@ -96,7 +93,6 @@ int	check_line(char *line, t_cub3D *data)
 void	check_file(char *av, t_cub3D *data)
 {
 	char	*line;
-	char	*line_brut;
 	int		i;
 
 	data->fd = open(av, O_RDONLY);
@@ -105,14 +101,9 @@ void	check_file(char *av, t_cub3D *data)
 	i = 1;
 	while (1)
 	{
-		line_brut = get_next_line_p(data->fd, 0);
-		line = ft_strtrim_p(line_brut, " \t\v\f\r\n");
-		free(line_brut);
+		line = ft_strtrim_p(get_next_line_p(data->fd, 0), " \t\v\f\r\n");
 		if (!line)
-		{
-			//get_next_line_p(-1, 1);
-			ft_print_message_and_exit("Map not found", 13);
-		}
+			ft_close_fd_and_exit("Map not found", 13, data);
 		ft_add_back(data, line, i);
 		if (check_line(line, data))
 		{
@@ -126,34 +117,34 @@ void	check_file(char *av, t_cub3D *data)
 			printf("%i\n",data->f_colours.r);
 			printf("%i\n",data->f_colours.g);
 			printf("%i\n",data->f_colours.b);
-			line = get_next_line_p(data->fd, 0);
 			break ;
 		}
-		//free(line);
 		i++;
 	}
-	while (*line == '\0')
+	line = get_next_line_p(data->fd, 0);
+	while (*line == '\n')
 	{
-		free(line);
 		line = get_next_line_p(data->fd, 0);
 		if (!line)
-		{
-			get_next_line_p(-1, 1);
-			close(data->fd);
-			ft_print_message_and_exit("Map not found", 13);
-		}
+			ft_close_fd_and_exit("Map not found", 19, data);
 	}
-	while (line)
+	line = ft_strtrim_p(line, "\n");
+	charge_map_lst(line, data);
+	/*while (line)
 	{
 		copy_map(line, data);
-		free(line);
 		line = get_next_line_p(data->fd, 0);
-	}
-	while (data->map)
+	}*/
+	while (data->map_lst)
 	{
-		printf("%s", (char *)data->map->content);
-		data->map = data->map->next;
+		printf("%s\n", (char *)data->map_lst->content);
+		data->map_lst = data->map_lst->next;
 	}
-	get_next_line_p(-1, 1);
-	close(data->fd);
+	i = 0;
+	printf("\nMap Array:\n");
+	while(data->map_arr[i])
+	{
+		printf("%s\n", data->map_arr[i]);
+		i++;
+	}
 }

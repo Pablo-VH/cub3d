@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_colors.c                                     :+:      :+:    :+:   */
+/*   colors_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
+/*   By: dagimeno <dagimeno@student.42madrid>       #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 20:59:54 by pavicent          #+#    #+#             */
-/*   Updated: 2025/07/02 20:59:58 by pavicent         ###   ########.fr       */
+/*   Created: 2025-07-04 12:13:55 by dagimeno          #+#    #+#             */
+/*   Updated: 2025-07-04 12:13:55 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ int	get_state(int prev, char c)
 	return (check_state(prev, current));
 }
 
-void	check_num(char **line)
+void	check_num(char **line, t_cub3D *data)
 {
-	int		state;
+	int	state;
 
 	state = 0;
 	while (**line && **line != ',')
 	{
 		state = get_state(state, **line);
 		if (state == 0)
-			ft_print_message_and_exit("Invalid rgb number", 7);
+			ft_close_fd_and_exit("Invalid rgb value", 17, data);
 		(*line)++;
 	}
 	if (**line == ',')
@@ -73,24 +73,21 @@ void	check_colors(t_cub3D *data)
 		ft_print_message_and_exit("Invalid color value", 6);
 }*/
 
-void	check_color_input_validity(t_rgb *colors)
+void	check_color_input_validity(t_rgb *colors, t_cub3D *data)
 {
 	if (colors->r < 0 || colors->r > 255
 		|| colors->g < 0 || colors->g > 255
 		|| colors->b < 0 || colors->b > 255)
-	{
-		get_next_line_p(-1, 1);
-		ft_print_message_and_exit("Invalid rgb number", 17);
-	}
+	ft_close_fd_and_exit("Invalid rgb value", 20, data);
 }
 
-void	charge_color_data(int num_of_colors, t_rgb *colors, char *line)
+void	charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data)
 {
-	if (num_of_colors == 1)
+	if (n == 1)
 		colors->r = ft_atoi(ft_strtrim_p(line, " \t\v\f\r"));
-	if (num_of_colors == 2)
+	if (n == 2)
 		colors->g = ft_atoi(ft_strtrim_p(line, " \t\v\f\r"));
-	if (num_of_colors == 3)
+	if (n == 3)
 		colors->b = ft_atoi(ft_strtrim_p(line, " \t\v\f\r"));
-	check_color_input_validity(colors);
+	check_color_input_validity(colors, data);
 }

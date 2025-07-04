@@ -79,7 +79,8 @@ typedef struct s_cub3D
 	t_lines		*file;
 	t_rgb		f_colours;
 	t_rgb		c_colours;
-	t_list		*map;
+	t_list		*map_lst;
+	char		**map_arr;
 	char		*p_no;
 	char		*p_so;
 	char		*p_we;
@@ -96,18 +97,18 @@ typedef struct s_cub3D
 	bool		err;
 }				t_cub3D;
 
-void	charge_color_data(int num_of_colors, t_rgb *colors, char *line);
-void	check_color_input_validity(t_rgb *colors);
+void	charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data);
 void	check_elements(char *line);
 void	charge_info(t_cub3D *data);
 //void	check_colors(t_cub3D *data);
 //void	check_content(char	**str, t_cub3D *data);
 void	check_file(char *av, t_cub3D *data);
 void	check_map(char *av, t_cub3D *data);
-void	check_num(char **line);
-void	copy_map(char *line, t_cub3D *data);
+void	check_num(char **line, t_cub3D *data);
+void	charge_map_lst(char *line, t_cub3D *data);
 //void	take_fc(char *colours, t_cub3D *data, int flag);
 //void	get_path(char *path, char *to_take);
+void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
 void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
 

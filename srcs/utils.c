@@ -39,3 +39,13 @@ void	check_elements(char *line)
 		ft_print_message_and_exit("Invalid line", 11);
 	}
 }
+
+void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data)
+{
+	get_next_line_p(-1, 1);
+	if (data->fd >= 0)
+		close(data->fd);
+	ft_alloc(0, 0);
+	ft_print_message_and_exit(s, exit_key);
+	exit(exit_key);
+}

@@ -55,13 +55,53 @@ void	copy_map(t_lines *list, t_cub3D *data)
 		list = list->next;
 	}
 }*/
+int	ft_are_invalid_characters(char *line, char *valid_characters)
+{
+	int		i;
 
-void	copy_map(char *line, t_cub3D *data)
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_strchr(valid_characters, line[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	charge_map_arr(t_cub3D *data, int size)
+{
+	int		i;
+	t_list	*map;
+
+	data->map_arr = ft_alloc((size + 1) * sizeof(char *), 1);
+	map = data->map_lst;
+	i = 0;
+	while (map)
+	{
+		data->map_arr[i] = map->content;
+		i++;
+		map = map->next;
+	}
+}
+
+void	charge_map_lst(char *line, t_cub3D *data)
 {
 	t_list	*node;
-	char	*content;
 
-	content = ft_strdup_p(line);
-	node = ft_lstnew_p(content);
-	ft_lstadd_back(&data->map, node);
+	if (ft_are_invalid_characters(line, "1 "))
+	{
+		ft_close_fd_and_exit("Map not properly enclosed by walls", 22, data);
+	}
+	while (line)
+	{
+		node = ft_lstnew_p(line);
+		ft_lstadd_back(&data->map_lst, node);
+		line = ft_strtrim_p(get_next_line_p(data->fd, 0), "\n");
+		if (line && ft_are_invalid_characters(line, "01NSEWG "))
+			ft_close_fd_and_exit("Invalid character found in map", 21, data);
+	}
+	get_next_line_p(-1, 1);
+	close(data->fd);
+	charge_map_arr(data, ft_lstsize(data->map_lst));
 }
