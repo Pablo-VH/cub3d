@@ -135,6 +135,7 @@ void	check_file(char *av, t_cub3D *data)
 		copy_map(line, data);
 		line = get_next_line_p(data->fd, 0);
 	}*/
+	printf("\nMap list:\n");
 	while (data->map_lst)
 	{
 		printf("%s\n", (char *)data->map_lst->content);
