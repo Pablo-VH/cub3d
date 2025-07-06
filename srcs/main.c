@@ -21,6 +21,6 @@ int	main(int ac, char **av)
 	if (!ft_check_extention(av[1], ".cub"))
 		ft_print_message_and_exit("Not valid .cub extention", 1);
 	data = ft_alloc(sizeof(t_cub3D), 1);
-	check_map(av[1], data);
+	parsing(av[1], data);
 	ft_alloc(0, 0);
 }

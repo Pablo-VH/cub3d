@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_file.c                                       :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,43 +12,27 @@
 
 #include "cub3D.h"
 
-/*void	get_path(char *path, char *to_take)
+static void	charge_info(t_cub3D *data)
 {
-	//size_t	i;
-
-	//i = 0;
-	if (path)
-		return ;
-	while (to_take[i])
+	while (data->file)
 	{
-		if (i >= 2 && to_take[i] && ft_isspace(to_take[i]))
-			i++;
-	}
-	path = ft_strtrim_p(to_take, " \t\v\f\r\n");
-}*/
-
-void	ft_add_back(t_cub3D *data, char *line, int i)
-{
-	t_lines	*tmp;
-	t_lines	*node;
-
-	node = ft_alloc(sizeof(t_lines), 1);
-	node->i = i;
-	node->str = line;
-	node->next = NULL;
-	if (!data->file)
-	{
-		data->file = node;
-		return ;
-	}
-	tmp = data->file;
-	while (data->file->next)
+		if (!ft_strncmp(data->file->content, "NO ", 3))
+			charge_t_info(data->file->content, &data->p_no, "NO", data);
+		if (!ft_strncmp(data->file->content, "SO ", 3))
+			charge_t_info(data->file->content, &data->p_so, "SO", data);
+		if (!ft_strncmp(data->file->content, "WE ", 3))
+			charge_t_info(data->file->content, &data->p_we, "WE", data);
+		if (!ft_strncmp(data->file->content, "EA ", 3))
+			charge_t_info(data->file->content, &data->p_ea, "EA", data);
+		if (!ft_strncmp(data->file->content, "F ", 2))
+			charge_color_info(data->file->content, &data->f_colours, "F", data);
+		if (!ft_strncmp(data->file->content, "C ", 2))
+			charge_color_info(data->file->content, &data->c_colours, "C", data);
 		data->file = data->file->next;
-	data->file->next = node;
-	data->file = tmp;
+	}
 }
 
-int	count_elements(const int *elements, t_cub3D *data)
+static int	count_elements(const int *elements, t_cub3D *data)
 {
 	int	i;
 	int	num_of_elements;
@@ -65,7 +49,7 @@ int	count_elements(const int *elements, t_cub3D *data)
 	return (num_of_elements);
 }
 
-int	check_line(char *line, t_cub3D *data)
+static int	check_line(char *line, t_cub3D *data)
 {
 	static int	elements[6];
 
@@ -90,36 +74,23 @@ int	check_line(char *line, t_cub3D *data)
 	return (0);
 }
 
-void	check_file(char *av, t_cub3D *data)
+void	parsing(char *av, t_cub3D *data)
 {
 	char	*line;
-	int		i;
+	t_list	*node;
 
 	data->fd = open(av, O_RDONLY);
 	if (data->fd < 0)
 		ft_perror_and_exit("Cub3d: open", 9);
-	i = 1;
 	while (1)
 	{
 		line = ft_strtrim_p(get_next_line_p(data->fd, 0), " \t\v\f\r\n");
 		if (!line)
 			ft_close_fd_and_exit("Map not found", 13, data);
-		ft_add_back(data, line, i);
+		node = ft_lstnew_p(line);
+		ft_lstadd_back(&data->file, node);
 		if (check_line(line, data))
-		{
-			printf("%s\n", data->p_no);
-			printf("%s\n", data->p_so);
-			printf("%s\n", data->p_we);
-			printf("%s\n", data->p_ea);
-			printf("%i\n",data->c_colours.r);
-			printf("%i\n",data->c_colours.g);
-			printf("%i\n",data->c_colours.b);
-			printf("%i\n",data->f_colours.r);
-			printf("%i\n",data->f_colours.g);
-			printf("%i\n",data->f_colours.b);
 			break ;
-		}
-		i++;
 	}
 	line = get_next_line_p(data->fd, 0);
 	while (*line == '\n')
@@ -130,22 +101,4 @@ void	check_file(char *av, t_cub3D *data)
 	}
 	line = ft_strtrim_p(line, "\n");
 	charge_map_lst(line, data);
-	/*while (line)
-	{
-		copy_map(line, data);
-		line = get_next_line_p(data->fd, 0);
-	}*/
-	printf("\nMap list:\n");
-	while (data->map_lst)
-	{
-		printf("%s\n", (char *)data->map_lst->content);
-		data->map_lst = data->map_lst->next;
-	}
-	i = 0;
-	printf("\nMap Array:\n");
-	while(data->map_arr[i])
-	{
-		printf("%s\n", data->map_arr[i]);
-		i++;
-	}
 }

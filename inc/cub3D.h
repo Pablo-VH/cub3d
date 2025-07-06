@@ -30,12 +30,6 @@
 # define WHITE "\033[0;97m"
 # define RESET "\033[0m"
 
-typedef enum s_fc
-{
-	FLOOR,
-	CEILING
-}	t_fc;
-
 typedef enum s_states
 {
 	N_ERR,
@@ -44,28 +38,6 @@ typedef enum s_states
 	N_SPA,
 	N_SP2,
 }	t_states;
-
-typedef struct s_lines
-{
-	int				i;
-	char			*str;
-	struct s_lines	*next;
-}					t_lines;
-
-/*typedef struct s_floor
-{
-	char	*setter;
-	int		r;
-	int		g;
-	int		b;
-}		t_floor;
-
-typedef struct s_ceiling
-{
-	int	r;
-	int	g;
-	int	b;
-}		t_ceiling;*/
 
 typedef struct s_rgb
 {
@@ -76,7 +48,7 @@ typedef struct s_rgb
 
 typedef struct s_cub3D
 {
-	t_lines		*file;
+	t_list		*file;
 	t_rgb		f_colours;
 	t_rgb		c_colours;
 	t_list		*map_lst;
@@ -86,30 +58,20 @@ typedef struct s_cub3D
 	char		*p_we;
 	char		*p_ea;
 	int			fd;
-	//int			no;
-	//int			so;
-	//int			we;
-	//int			ea;
-	//int			f;
-	//int			c;
-	int			init;
-	int			max_len;
-	bool		err;
 }				t_cub3D;
 
+int		ft_are_invalid_characters(char *line, char *valid_characters);
 void	charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data);
-void	check_elements(char *line);
-void	charge_info(t_cub3D *data);
-//void	check_colors(t_cub3D *data);
-//void	check_content(char	**str, t_cub3D *data);
-void	check_file(char *av, t_cub3D *data);
-void	check_map(char *av, t_cub3D *data);
-void	check_num(char **line, t_cub3D *data);
+void	charge_color_info(char *line, t_rgb *colors, char *def, t_cub3D *data);
 void	charge_map_lst(char *line, t_cub3D *data);
-//void	take_fc(char *colours, t_cub3D *data, int flag);
-//void	get_path(char *path, char *to_take);
+void	charge_t_info(char *line, char **recipient, char *def, t_cub3D *data);
+void	check_elements(char *line);
+void	check_num(char **line, t_cub3D *data);
+void	ft_check_num_of_playrs(char *line, int *num_of_players, t_cub3D *data);
+void	ft_check_walls(char **map, int size);
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
 void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
+void	parsing(char *av, t_cub3D *data);
 
 #endif
