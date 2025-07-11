@@ -22,5 +22,6 @@ int	main(int ac, char **av)
 		ft_print_message_and_exit("Not valid .cub extention", 1);
 	data = ft_alloc(sizeof(t_cub3D), 1);
 	parsing(av[1], data);
+	execute_game(data);
 	ft_alloc(0, 0);
 }

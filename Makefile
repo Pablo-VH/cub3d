@@ -19,7 +19,7 @@ LDFLAGS     := $(MLX_LIB) -ldl -lglfw -pthread -lm
 
 # --------------------🧱 Archivos --------------------
 SRCS_FILES  := main.c map_management.c parsing.c utils.c\
-				colors_utils.c charge_elements_info.c
+				colors_utils.c charge_elements_info.c execute_init.c
 SRCS        := $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJS        := $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
 

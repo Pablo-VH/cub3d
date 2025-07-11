@@ -67,6 +67,7 @@ void	charge_map_lst(char *line, t_cub3D *data);
 void	charge_t_info(char *line, char **recipient, char *def, t_cub3D *data);
 void	check_elements(char *line);
 void	check_num(char **line, t_cub3D *data);
+int		execute_game(t_cub3D *data);
 void	ft_check_num_of_playrs(char *line, int *num_of_players, t_cub3D *data);
 void	ft_check_walls(char **map, int size);
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
