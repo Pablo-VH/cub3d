@@ -114,6 +114,7 @@ void	ft_check_walls(char **map, int size);
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
 void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
+void	ft_terminate_mlx_and_exit(t_cub3D *data);
 void	parsing(char *av, t_cub3D *data);
 
 #endif

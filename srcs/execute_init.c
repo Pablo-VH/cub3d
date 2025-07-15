@@ -105,6 +105,8 @@ void	ft_paint_floor_and_ceiling(t_cub3D *data)
 
 	data->imgs->floor = mlx_new_image(data->mlx, WIDTH, (HEIGHT / 2));
 	data->imgs->ceiling = mlx_new_image(data->mlx, WIDTH, (HEIGHT / 2));
+	if (!data->imgs->floor || !data->imgs->ceiling)
+		ft_terminate_mlx_and_exit(data);
 	color[0] = get_rgba(data->c_colours);
 	color[1] = get_rgba(data->f_colours);
 	i = 0;

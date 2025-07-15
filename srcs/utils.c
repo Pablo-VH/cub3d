@@ -49,3 +49,13 @@ void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data)
 	ft_print_message_and_exit(s, exit_key);
 	exit(exit_key);
 }
+
+void	ft_terminate_mlx_and_exit(t_cub3D *data)
+{
+	if (data->imgs->ceiling)
+		mlx_delete_image(data->mlx, data->imgs->ceiling);
+	if (data->imgs->floor)
+		mlx_delete_image(data->mlx, data->imgs->floor);
+	mlx_terminate(data->mlx);
+	exit(EXIT_FAILURE);
+}
