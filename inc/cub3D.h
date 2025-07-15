@@ -29,6 +29,12 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;97m"
 # define RESET "\033[0m"
+# define WIDTH 640
+# define HEIGHT 480
+# define TEX_WIDTH 64
+# define TEX_HEIGHT 64
+# define MOVESPEED 0.0125
+# define ROTSPEED 0.015
 
 typedef enum s_states
 {
@@ -46,12 +52,48 @@ typedef struct s_rgb
 	int	b;
 }		t_rgb;
 
+typedef struct s_player
+{
+	double	posX;
+	double	posY;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+}			t_player;
+
+typedef struct s_ray 
+{
+	double	rayDirX;
+	double	rayDirY;
+	int		mapX;
+	int		mapY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	perpWallDist;
+	int		stepX;
+	int		stepY;
+	int		side;
+} 			t_ray;
+
+typedef	struct s_img
+{
+	mlx_image_t		*ceiling;
+	mlx_image_t		*floor;
+}				t_img;
+
 typedef struct s_cub3D
 {
 	t_list		*file;
 	t_rgb		f_colours;
 	t_rgb		c_colours;
 	t_list		*map_lst;
+	t_player	*player;
+	t_ray		*ray;
+	mlx_t		*mlx;
+	t_img		*imgs;
 	char		**map_arr;
 	char		*p_no;
 	char		*p_so;
