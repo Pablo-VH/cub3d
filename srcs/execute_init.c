@@ -99,9 +99,9 @@ uint32_t	get_rgba(t_rgb colours)
 
 void	ft_paint_floor_and_ceiling(t_cub3D *data)
 {
-	int	color[2];
-	int	i;
-	int	j;
+	uint32_t	color[2];
+	int			i;
+	int			j;
 
 	data->imgs->floor = mlx_new_image(data->mlx, WIDTH, (HEIGHT / 2));
 	data->imgs->ceiling = mlx_new_image(data->mlx, WIDTH, (HEIGHT / 2));
