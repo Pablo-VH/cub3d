@@ -62,7 +62,7 @@ typedef struct s_player
 	double	planeY;
 }			t_player;
 
-typedef struct s_ray 
+typedef struct s_ray
 {
 	double	rayDirX;
 	double	rayDirY;
@@ -76,9 +76,9 @@ typedef struct s_ray
 	int		stepX;
 	int		stepY;
 	int		side;
-} 			t_ray;
+}			t_ray;
 
-typedef	struct s_img
+typedef struct s_img
 {
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
@@ -107,7 +107,6 @@ void	charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data);
 void	charge_color_info(char *line, t_rgb *colors, char *def, t_cub3D *data);
 void	charge_map_lst(char *line, t_cub3D *data);
 void	charge_t_info(char *line, char **recipient, char *def, t_cub3D *data);
-void	check_elements(char *line);
 void	check_num(char **line, t_cub3D *data);
 int		execute_game(t_cub3D *data);
 void	ft_check_num_of_playrs(char *line, int *num_of_players, t_cub3D *data);

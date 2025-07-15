@@ -12,39 +12,39 @@
 
 #include "cub3D.h"
 
-void	ft_print_message_and_exit(char *s, int exit_key)
-{
-	ft_dprintf(2, RED"Error\n%s\n"RESET, s);
-	ft_alloc(0, 0);
-	exit (exit_key);
-}
-
 void	ft_perror_and_exit(char *s, int exit_key)
 {
-	write(2, &RED, ft_strlen(RED));
-	perror(s);
-	write(2, &RESET, ft_strlen(RESET));
 	ft_alloc(0, 0);
+	if (write(2, &RED, ft_strlen(RED)) < 0)
+	{
+		perror("cub3D: write");
+		exit(29);
+	}
+	perror(s);
+	if (write(2, &RESET, ft_strlen(RESET)) < 0)
+	{
+		perror("cub3D: write");
+		exit(30);
+	}
 	exit (exit_key);
 }
 
-void	check_elements(char *line)
+void	ft_print_message_and_exit(char *s, int exit_key)
 {
-	if (ft_strncmp(line, "C ", 2) && ft_strncmp(line, "F ", 2)
-		&& ft_strncmp(line, "NO ", 3) && ft_strncmp(line, "SO ", 3)
-		&& ft_strncmp(line, "WE ", 3) && ft_strncmp(line, "EA ", 3)
-		&& ft_strncmp(line, "\0", 2))
-	{
-		get_next_line_p(-1, 1);
-		ft_print_message_and_exit("Invalid line", 11);
-	}
+	if (ft_dprintf(2, RED"Error\n%s\n"RESET, s) < 0)
+		ft_perror_and_exit("cub3D: ft_dprintf", 31);
+	ft_alloc(0, 0);
+	exit (exit_key);
 }
 
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data)
 {
 	get_next_line_p(-1, 1);
 	if (data->fd >= 0)
-		close(data->fd);
+	{
+		if (close(data->fd) < 0)
+			ft_perror_and_exit("Cub3D: close", 28);
+	}
 	ft_alloc(0, 0);
 	ft_print_message_and_exit(s, exit_key);
 	exit(exit_key);

@@ -83,10 +83,11 @@ void render(void* param) {
 	}
 }*/
 
-static void ft_hook(void* param)
+static void	ft_hook(void *param)
 {
-	const mlx_t* mlx = param;
+	const mlx_t	*mlx;
 
+	mlx = param;
 	(void)mlx;
 	//printf("WIDTH: %d | HEIGHT: %d\n", mlx->width, mlx->height);
 }
@@ -122,7 +123,7 @@ void	ft_paint_floor_and_ceiling(t_cub3D *data)
 	mlx_image_to_window(data->mlx, data->imgs->floor, 0, (HEIGHT / 2));
 }
 
-int	execute_game(t_cub3D *data) 
+int	execute_game(t_cub3D *data)
 {
 	data->mlx = mlx_init(WIDTH, HEIGHT, "Raycaster MLX42", true);
 	if (!data->mlx)

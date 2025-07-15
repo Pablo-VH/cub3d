@@ -32,6 +32,15 @@ static void	charge_info(t_cub3D *data)
 	}
 }
 
+static void	check_elements(char *line, t_cub3D *data)
+{
+	if (ft_strncmp(line, "C ", 2) && ft_strncmp(line, "F ", 2)
+		&& ft_strncmp(line, "NO ", 3) && ft_strncmp(line, "SO ", 3)
+		&& ft_strncmp(line, "WE ", 3) && ft_strncmp(line, "EA ", 3)
+		&& ft_strncmp(line, "\0", 2))
+		ft_close_fd_and_exit("Invalid line", 11, data);
+}
+
 static int	count_elements(const int *elements, t_cub3D *data)
 {
 	int	i;
@@ -53,7 +62,7 @@ static int	check_line(char *line, t_cub3D *data)
 {
 	static int	elements[6];
 
-	check_elements(line);
+	check_elements(line, data);
 	if (!ft_strncmp(line, "NO ", 3))
 		elements[0]++;
 	if (!ft_strncmp(line, "SO ", 3))
@@ -81,7 +90,7 @@ void	parsing(char *av, t_cub3D *data)
 
 	data->fd = open(av, O_RDONLY);
 	if (data->fd < 0)
-		ft_perror_and_exit("Cub3d: open", 9);
+		ft_perror_and_exit("Cub3D: open", 9);
 	while (1)
 	{
 		line = ft_strtrim_p(get_next_line_p(data->fd, 0), " \t\v\f\r\n");

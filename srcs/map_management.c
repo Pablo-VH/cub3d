@@ -40,6 +40,7 @@ void	ft_check_walls(char **map, int size)
 		while (map[i][j])
 		{
 			if ((i == 0 && ft_strchr(str, map[i][j]))
+				|| (j == 0 && ft_strchr(str, map[i][j]))
 				|| (i == size - 1 && ft_strchr(str, map[i][j])))
 				ft_print_message_and_exit
 					("Map not properly enclosed by walls", 27);

@@ -3,7 +3,7 @@ WE textures/test/west.xpm
 EA textures/test/east.xpm
       NO textures/test/east.xpm
 
-F 175, 20  , 30 
+F 175, 20  , 300 
 C 1,  255,200
 
     1111   11111111111
