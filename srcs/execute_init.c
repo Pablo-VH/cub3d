@@ -82,15 +82,16 @@ void render(void* param) {
 		draw_column(data, x, drawStart, drawEnd, texNum, texX, side);
 	}
 }*/
-
+/*
 static void	ft_hook(void *param)
 {
-	const mlx_t	*mlx;
+	t_cub3D	*data;
 
-	mlx = param;
-	(void)mlx;
+	data = param;
+	(void)data;
+	ft_print_screen(data, data->vectors);
 	//printf("WIDTH: %d | HEIGHT: %d\n", mlx->width, mlx->height);
-}
+}*/
 
 uint32_t	get_rgba(t_rgb colours)
 {
@@ -132,18 +133,11 @@ int	execute_game(t_cub3D *data)
 		return (EXIT_FAILURE);
 	data->imgs = ft_alloc(sizeof(t_img), 1);
 	ft_paint_floor_and_ceiling(data);
-
-	/*data->player->posX = 22;
-	data->player->posY = 11.5;
-	data->player->dirX = -1;
-	data->player->dirY = 0;
-	data->player->planeX = 0;
-	data->player->planeY = 0.66;*/
-	mlx_loop_hook(data->mlx, ft_hook, data->mlx);
+	//data->vectors = ft_alloc(sizeof(t_vectors), 1);
+	//mlx_loop_hook(data->mlx, ft_hook, data->mlx);
 	mlx_loop(data->mlx);
 	mlx_delete_image(data->mlx, data->imgs->floor);
 	mlx_delete_image(data->mlx, data->imgs->ceiling);
-	//mlx_delete_texture(texture);
 	mlx_terminate(data->mlx);
 
 	//init_map(&data);

@@ -40,6 +40,7 @@ void	ft_print_message_and_exit(char *s, int exit_key)
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data)
 {
 	get_next_line_p(-1, 1);
+	ft_printf("%d\n", data->fd);
 	if (data->fd >= 0)
 	{
 		if (close(data->fd) < 0)

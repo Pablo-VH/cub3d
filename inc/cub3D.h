@@ -52,31 +52,31 @@ typedef struct s_rgb
 	int	b;
 }		t_rgb;
 
-typedef struct s_player
+typedef struct s_vectors
 {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
-}			t_player;
-
-typedef struct s_ray
-{
-	double	rayDirX;
-	double	rayDirY;
-	int		mapX;
-	int		mapY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
-	double	perpWallDist;
-	int		stepX;
-	int		stepY;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
+	int		draw_start;
+	int		draw_end;
+	int		line_height;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	perp_wall_dist;
+	int		step_x;
+	int		step_y;
 	int		side;
-}			t_ray;
+}			t_vectors;
 
 typedef struct s_img
 {
@@ -90,8 +90,9 @@ typedef struct s_cub3D
 	t_rgb		f_colours;
 	t_rgb		c_colours;
 	t_list		*map_lst;
-	t_player	*player;
-	t_ray		*ray;
+	//t_player	*player;
+	//t_ray		*ray;
+	t_vectors	*vectors;
 	mlx_t		*mlx;
 	t_img		*imgs;
 	char		**map_arr;
@@ -114,6 +115,7 @@ void	ft_check_walls(char **map, int size);
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
 void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
+//void	ft_print_screen(t_cub3D *data, t_vectors *vectors);
 void	ft_terminate_mlx_and_exit(t_cub3D *data);
 void	parsing(char *av, t_cub3D *data);
 

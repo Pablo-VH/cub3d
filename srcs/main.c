@@ -11,47 +11,47 @@
 /* ************************************************************************** */
 
 #include "cub3D.h"
-/*
-void	take_player_values(t_cub3D *data, int x, int y)
+
+double	fill_values(int row, int column)
 {
-	data->player->posX = x + 0.5;
-	data->player->posY = y + 0.5;
-	if (data->map_arr[y][x] == 'N')
-	{
-		data->player->dirX = 0;
-		data->player->dirY = -1;
-		data->player->planeX = 0.66;
-		data->player->planeY = 0;
-	}
-	else if (data->map_arr[y][x] == 'S')
-	{
-		data->player->dirX = 0;
-		data->player->dirY = 1;
-		data->player->planeX = -0.66;
-		data->player->planeY = 0;
-	}
-	else if (data->map_arr[y][x] == 'E')
-	{
-		data->player->dirX = 1;
-		data->player->dirY = 0;
-		data->player->planeX = 0;
-		data->player->planeY = 0.66;
-	}
-	else if (data->map_arr[y][x] == 'W')
-	{
-		data->player->dirX = -1;
-		data->player->dirY = 0;
-		data->player->planeX = 0;
-		data->player->planeY = -0.66;
-	}
+	static const double	values[][4] = {
+	{+0.00, +0.00, +1.00, -1.00}, //dir_x
+	{-1.00, +1.00, +0.00, +0.00}, //dir_y
+	{-0.66, +0.66, +0.00, +0.00}, //plane_x
+	{+0.00, +0.00, +0.66, -0.66} //plane_y
+	};
+	return (values[row][column]);
 }
 
-void	set_player_pos(char **map, t_player *player, t_cub3D *data)
+void	get_player_values(t_cub3D *data, int x, int y)
+{
+	int	i;
+	int	player_dir;
+
+	data->vectors = ft_alloc(sizeof(t_vectors), 1);
+	data->vectors->pos_x = x + 0.5;
+	data->vectors->pos_y = y + 0.5;
+	if (data->map_arr[y][x] == 'N')
+		player_dir = 0;
+	if (data->map_arr[y][x] == 'S')\
+		player_dir = 1;
+	if (data->map_arr[y][x] == 'E')
+		player_dir = 2;
+	if (data->map_arr[y][x] == 'W')
+		player_dir = 3;
+	i = 0;
+	data->vectors->dir_x = fill_values(i++, player_dir);
+	data->vectors->dir_y = fill_values(i++, player_dir);
+	data->vectors->plane_x = fill_values(i++, player_dir);
+	data->vectors->plane_y = fill_values(i++, player_dir);
+	//printf("pos_x = %lf | pos_y = %lf | dir_x = %lf | dir_y = %lf | plane_x = %lf | plane_y = %lf\n", data->vectors->pos_x, data->vectors->pos_y, data->vectors->dir_x, data->vectors->dir_y, data->vectors->plane_x, data->vectors->plane_y);
+}
+
+void	set_player_pos(char **map, t_cub3D *data)
 {
 	int		x;
 	int		y;
 	char	*str;
-	(void)player;
 
 	y = 0;
 	str = "NSWE";
@@ -61,13 +61,16 @@ void	set_player_pos(char **map, t_player *player, t_cub3D *data)
 		while (map[y][x])
 		{
 			if (ft_strchr(str, map[y][x]))
-				return (take_player_values(data, x, y)) ;
+			{
+				get_player_values(data, x, y);
+				return ;
+			}
 			x++;
 		}
 		y++;
 	}
 	
-}*/
+}
 
 int	main(int ac, char **av)
 {
@@ -78,8 +81,15 @@ int	main(int ac, char **av)
 	if (!ft_check_extention(av[1], ".cub"))
 		ft_print_message_and_exit("Not valid .cub extention", 1);
 	data = ft_alloc(sizeof(t_cub3D), 1);
+	return (0);
 	parsing(av[1], data);
-//	set_player_pos(data->map_arr, data->player, data);
-	execute_game(data);
+	//set_player_pos(data->map_arr, data);
+	for (int y = 0; data->map_arr[y]; y++)
+	{
+		for (int x = 0; data->map_arr[y][x]; x++)
+			ft_printf("%c", data->map_arr[y][x]);
+		write(1, "\n", 1);
+	}
+	//execute_game(data);
 	ft_alloc(0, 0);
 }
