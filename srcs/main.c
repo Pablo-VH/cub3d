@@ -81,7 +81,6 @@ int	main(int ac, char **av)
 	if (!ft_check_extention(av[1], ".cub"))
 		ft_print_message_and_exit("Not valid .cub extention", 1);
 	data = ft_alloc(sizeof(t_cub3D), 1);
-	return (0);
 	parsing(av[1], data);
 	//set_player_pos(data->map_arr, data);
 	for (int y = 0; data->map_arr[y]; y++)
