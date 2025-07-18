@@ -1,5 +1,5 @@
 #include "cub3D.h"
-/*
+
 void	find_distance_to_walls(t_cub3D *data, t_vectors *vectors)
 {
 	while (1)
@@ -24,8 +24,12 @@ void	find_distance_to_walls(t_cub3D *data, t_vectors *vectors)
 		vectors->perp_wall_dist = vectors->side_dist_y - vectors->delta_dist_y;
 }
 
-void	print_players(t_cub3D *data, t_vectors *vectors)
+void	print_columns(t_cub3D *data, t_vectors *vectors)
 {
+	uint32_t	buffer[HEIGHT][WIDTH];
+	int			*textures[4];
+	int			i;
+
 	vectors->line_height = (int)(HEIGHT / vectors->perp_wall_dist);
 	vectors->draw_start = -vectors->line_height / 2 + HEIGHT / 2;
 	if (vectors->draw_start < 0)
@@ -33,6 +37,30 @@ void	print_players(t_cub3D *data, t_vectors *vectors)
 	vectors->draw_end = vectors->line_height / 2 + HEIGHT / 2;
 	if (vectors->draw_end >= HEIGHT)
 		vectors->draw_end = -1;
+	i = 0;
+	while (i < 4)
+	{
+		textures[i] = ft_alloc(TEX_HEIGHT * TEX_WIDTH * sizeof(int), 1);
+		i++;
+	}
+	vectors->text_num = data->map_arr[vectors->map_x][vectors->map_y] - 1;
+	vectors->wall_x = vectors->pos_x + vectors->perp_wall_dist * vectors->ray_dir_x;
+	if (vectors->side == 0)
+		vectors->wall_x = vectors->pos_y + vectors->perp_wall_dist * vectors->ray_dir_y;
+	vectors->wall_x -= floor(vectors->wall_x);
+	vectors->text_x = (int)(vectors->wall_x * (double)TEX_WIDTH);
+	if ((vectors->side == 0 && vectors->ray_dir_x > 0)
+		|| (vectors->side == 1 && vectors->ray_dir_x < 0))
+		vectors->text_x = TEX_WIDTH - vectors->text_x - 1;
+	vectors->step = 1.0 * TEX_HEIGHT / vectors->line_height;
+	vectors->text_pos = (vectors->draw_start - HEIGHT / 2 + vectors->line_height / 2) * vectors->step;
+	i = vectors->draw_start;
+	while (i < vectors->draw_end)
+	{
+		vectors->text_y = (int)vectors->text_pos & (TEX_HEIGHT - 1);
+		vectors->text_pos += vectors->step;
+		vectors->color = textures[vectors->text_num][TEX_HEIGHT * vectors->text_y + vectors->text_x];
+	}
 }
 
 void	ft_print_screen(t_cub3D *data, t_vectors *vectors)
@@ -73,7 +101,7 @@ void	ft_print_screen(t_cub3D *data, t_vectors *vectors)
 	}
 	find_distance_to_walls(data, data->vectors);
 	print_columns(data, data->vectors);
-}*/
+}
 
 /*
 for(int x = 0; x < w; x++)
@@ -141,4 +169,5 @@ for(int x = 0; x < w; x++)
         //Check if ray has hit a wall
         if(worldMap[mapX][mapY] > 0) hit = 1;
       }
-      }*/
+	}
+	*/

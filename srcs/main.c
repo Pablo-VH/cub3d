@@ -82,13 +82,13 @@ int	main(int ac, char **av)
 		ft_print_message_and_exit("Not valid .cub extention", 1);
 	data = ft_alloc(sizeof(t_cub3D), 1);
 	parsing(av[1], data);
-	//set_player_pos(data->map_arr, data);
+	set_player_pos(data->map_arr, data);
 	for (int y = 0; data->map_arr[y]; y++)
 	{
 		for (int x = 0; data->map_arr[y][x]; x++)
 			ft_printf("%c", data->map_arr[y][x]);
 		write(1, "\n", 1);
 	}
-	//execute_game(data);
+	execute_game(data);
 	ft_alloc(0, 0);
 }

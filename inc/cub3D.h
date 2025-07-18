@@ -54,35 +54,54 @@ typedef struct s_rgb
 
 typedef struct s_vectors
 {
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	int		map_x;
-	int		map_y;
-	int		draw_start;
-	int		draw_end;
-	int		line_height;
-	double	side_dist_x;
-	double	side_dist_y;
-	double	delta_dist_x;
-	double	delta_dist_y;
-	double	perp_wall_dist;
-	int		step_x;
-	int		step_y;
-	int		side;
+	double		pos_x;
+	double		pos_y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+	double		camera_x;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	double		wall_x;
+	int			map_x;
+	int			map_y;
+	int			draw_start;
+	int			draw_end;
+	int			line_height;
+	int			text_num;
+	int			text_x;
+	int			text_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		perp_wall_dist;
+	double		step;
+	double		text_pos;
+	int			step_x;
+	int			step_y;
+	int			side;
+	uint32_t	color;
 }			t_vectors;
 
 typedef struct s_img
 {
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
+	mlx_image_t		*n;
+	mlx_image_t		*s;
+	mlx_image_t		*e;
+	mlx_image_t		*w;	
 }				t_img;
+
+typedef struct	s_textures
+{
+	mlx_texture_t	*n;
+	mlx_texture_t	*s;
+	mlx_texture_t	*e;
+	mlx_texture_t	*w;
+}				t_texture;
 
 typedef struct s_cub3D
 {
@@ -95,6 +114,7 @@ typedef struct s_cub3D
 	t_vectors	*vectors;
 	mlx_t		*mlx;
 	t_img		*imgs;
+	t_texture	*textures;
 	char		**map_arr;
 	char		*p_no;
 	char		*p_so;
@@ -115,8 +135,9 @@ void	ft_check_walls(char **map, int size);
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
 void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
-//void	ft_print_screen(t_cub3D *data, t_vectors *vectors);
+void	ft_print_screen(t_cub3D *data, t_vectors *vectors);
 void	ft_terminate_mlx_and_exit(t_cub3D *data);
+void    load_textures(t_cub3D *data);
 void	parsing(char *av, t_cub3D *data);
 
 #endif
