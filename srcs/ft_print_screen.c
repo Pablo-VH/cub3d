@@ -4,24 +4,24 @@ void	find_distance_to_walls(t_cub3D *data, t_vectors *vectors)
 {
 	while (1)
 	{
-		vectors->side_dist_y += vectors->delta_dist_y;
-		vectors->map_y += vectors->step_y;
-		vectors->side = 1;
-		data->textures->hit = data->textures->n;
-		if (vectors->ray_dir_y > 0)
-			data->textures->hit = data->textures->s;
-			//vectors->side = 3;
 		if (vectors->side_dist_x < vectors->side_dist_y)
 		{
 			vectors->side_dist_x += vectors->delta_dist_x;
 			vectors->map_x += vectors->step_x;
 			vectors->side = 0;
-			data->textures->hit = data->textures->e;
+			data->textures->hit = data->textures->n;
 			if (vectors->ray_dir_x < 0)
-				data->textures->hit = data->textures->w;
-					//ectors->side = 2;
+				data->textures->hit = data->textures->s;
 		}
-		if (data->map_arr[vectors->map_x][vectors->map_y] > 0)
+		else{
+			vectors->side_dist_y += vectors->delta_dist_y;
+			vectors->map_y += vectors->step_y;
+			vectors->side = 1;
+			data->textures->hit = data->textures->e;
+			if (vectors->ray_dir_y > 0)
+				data->textures->hit = data->textures->w;
+		}
+		if (data->map_arr[vectors->map_x][vectors->map_y] == '1')
 			break ;
 	}
 	vectors->perp_wall_dist = vectors->side_dist_x - vectors->delta_dist_x;
@@ -34,26 +34,35 @@ void	ft_print_vertical_line(t_cub3D *data, t_vectors *vectors, uint32_t x)
 	uint32_t	*tex_pix;
 	uint32_t	color;
 	double		step;
-	uint32_t		y;
+	int			y;
 
 	step = (double)TEX_HEIGHT / vectors->line_height;
 	vectors->tex_pos = (vectors->draw_start - HEIGHT
 		/ 2 + vectors->line_height /2) * step;
 	y = vectors->draw_start;
-	while (y < (uint32_t)vectors->draw_end)
+	//printf("y = %d\n", y);
+	//printf("draw_end = %d\n", vectors->draw_end);
+	while (y < vectors->draw_end)
 	{
+		//printf("hola\n");
 		vectors->tex_y = (int)vectors->tex_pos & (TEX_HEIGHT - 1);
+		vectors->tex_pos += step;
+		// En ft_print_screen, antes del bucle principal
 		tex_pix = (uint32_t *)data->textures->hit->pixels;
+		//printf("%i\n", data->textures->hit->width);
+		//printf("tex_y = %d | tex_x = %d | width = %d | tex_y * width + tex_x = %d\n", vectors->tex_y, vectors->tex_x, data->textures->hit->width, vectors->tex_y * data->textures->hit->width + vectors->tex_x);
 		color = tex_pix[vectors->tex_y
-			* data->textures->hit->width * vectors->tex_x];
-		mlx_put_pixel(data->imgs->canvas, x, y, color);
+			* data->textures->hit->width + vectors->tex_x];
+		mlx_put_pixel(data->imgs->canvas, x, (uint32_t)y, color);
 		y++;
 	}
+	//mlx_image_to_window(data->mlx, data->imgs->canvas, 0 ,0);
 }
 
 void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
 {
 	vectors->line_height = (int)(HEIGHT / vectors->perp_wall_dist);
+	//printf("line_height = %d\n", vectors->line_height);
 	vectors->draw_start = -vectors->line_height / 2 + HEIGHT / 2;
 	if (vectors->draw_start < 0)
 		vectors->draw_start = 0;
@@ -65,6 +74,7 @@ void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
 	if (vectors->side)
 		vectors->wall_x = vectors->pos_x
 			+ vectors->perp_wall_dist * vectors->ray_dir_x;
+	vectors->wall_x -= floor(vectors->wall_x);
 	vectors->tex_x = (int)(vectors->wall_x * (double)TEX_WIDTH);
 	if ((vectors->side == 0 && vectors->delta_dist_x > 0)
 		|| (vectors->side == 1 && vectors->ray_dir_y < 0))
@@ -107,20 +117,28 @@ void	ft_print_screen(t_cub3D *data, t_vectors *vectors)
 	x = 0;
 	while (x < WIDTH)
 	{
+		//printf("pos_x = %lf | pos_y = %lf | dir_x = %lf | dir_y = %lf | plane_x = %lf | plane_y = %lf\n", data->vectors->pos_x, data->vectors->pos_y, data->vectors->dir_x, data->vectors->dir_y, data->vectors->plane_x, data->vectors->plane_y);
 		vectors->camera_x = 2 * x / (double)WIDTH - 1;
+		//printf("camera_x = %lf\n", vectors->camera_x);
 		vectors->ray_dir_x = vectors->dir_x
 			+ vectors->plane_x * vectors->camera_x;
+		//printf("ray_dir_x = %lf\n", vectors->ray_dir_x);
 		vectors->ray_dir_y = vectors->dir_y
 			+ vectors->plane_y * vectors->camera_x;
+		//printf("ray_dir_y = %lf\n", vectors->ray_dir_y);
 		vectors->map_x = (int)vectors->pos_x;
 		vectors->map_y = (int)vectors->pos_y;
-		vectors->delta_dist_x = abs((int)(1 / vectors->ray_dir_x));
-		vectors->delta_dist_y = abs((int)(1 / vectors->ray_dir_y));
+		vectors->delta_dist_x = 1e30;
+		if (vectors->ray_dir_x != 0)
+			vectors->delta_dist_x = fabs(1 / vectors->ray_dir_x);
+		vectors->delta_dist_y = 1e30;
+		if (vectors->ray_dir_y != 0)
+			vectors->delta_dist_y = fabs(1 / vectors->ray_dir_y);
 		ft_get_side_dist(vectors);
+		find_distance_to_walls(data, data->vectors);
+		print_columns(data, data->vectors, x);
 		x++;
 	}
-	find_distance_to_walls(data, data->vectors);
-	print_columns(data, data->vectors, x);
 }
 
 /*
