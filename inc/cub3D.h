@@ -69,16 +69,16 @@ typedef struct s_vectors
 	int			draw_start;
 	int			draw_end;
 	int			line_height;
-	int			text_num;
-	int			text_x;
-	int			text_y;
+	int			tex_num;
+	int			tex_x;
+	int			tex_y;
 	double		side_dist_x;
 	double		side_dist_y;
 	double		delta_dist_x;
 	double		delta_dist_y;
 	double		perp_wall_dist;
 	double		step;
-	double		text_pos;
+	double		tex_pos;
 	int			step_x;
 	int			step_y;
 	int			side;
@@ -93,6 +93,8 @@ typedef struct s_img
 	mlx_image_t		*s;
 	mlx_image_t		*e;
 	mlx_image_t		*w;	
+	mlx_image_t		*canvas;
+//	mlx_image_t		*hit;
 }				t_img;
 
 typedef struct	s_textures
@@ -101,6 +103,7 @@ typedef struct	s_textures
 	mlx_texture_t	*s;
 	mlx_texture_t	*e;
 	mlx_texture_t	*w;
+	mlx_texture_t	*hit;
 }				t_texture;
 
 typedef struct s_cub3D
@@ -122,6 +125,11 @@ typedef struct s_cub3D
 	char		*p_ea;
 	int			fd;
 }				t_cub3D;
+// if side == 0 we are looking to the East.
+// if side == 1 we are looking to the North.
+// if side == 2 we are looking to the Weast.
+// if side == 3 we are looking to the South.
+
 
 int		ft_are_invalid_characters(char *line, char *valid_characters);
 void	charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data);

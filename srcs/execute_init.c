@@ -133,9 +133,10 @@ int	execute_game(t_cub3D *data)
 		return (EXIT_FAILURE);
 	data->imgs = ft_alloc(sizeof(t_img), 1);
 	ft_paint_floor_and_ceiling(data);
-	//data->vectors = ft_alloc(sizeof(t_vectors), 1);
-	//mlx_loop_hook(data->mlx, ft_hook, data->mlx);
+	data->vectors = ft_alloc(sizeof(t_vectors), 1);
+	//mlx_image_to_window(data->mlx, data->imgs->canvas, 0, 0);
 	load_textures(data);
+	mlx_loop_hook(data->mlx, ft_hook, data->mlx);
 	mlx_loop(data->mlx);
 	mlx_delete_image(data->mlx, data->imgs->floor);
 	mlx_delete_image(data->mlx, data->imgs->ceiling);
@@ -146,6 +147,6 @@ int	execute_game(t_cub3D *data)
 
 	//mlx_loop_hook(data->mlx, &render, &data);
 	//mlx_loop(data->mlx);
-	mlx_terminate(data->mlx);
+	//mlx_terminate(data->mlx);
 	return (0);
 }

@@ -10,4 +10,5 @@ void    load_textures(t_cub3D *data)
     data->imgs->e = mlx_texture_to_image(data->mlx, data->textures->e);
     data->textures->w = mlx_load_png("textures/greystone.png");
     data->imgs->w = mlx_texture_to_image(data->mlx, data->textures->w);
+	data->imgs->canvas = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 }
