@@ -4,7 +4,7 @@ void    load_textures(t_cub3D *data)
 {
     data->textures->n = mlx_load_png("textures/eagle.png");
     data->imgs->n = mlx_texture_to_image(data->mlx, data->textures->n);
-    data->textures->s = mlx_load_png("textures/eagle.png");
+    data->textures->s = mlx_load_png("textures/colorstone.png");
     data->imgs->s = mlx_texture_to_image(data->mlx, data->textures->s);
     data->textures->e = mlx_load_png("textures/redbrick.png");
     data->imgs->e = mlx_texture_to_image(data->mlx, data->textures->e);

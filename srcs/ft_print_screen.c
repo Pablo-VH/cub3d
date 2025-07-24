@@ -46,7 +46,7 @@ void	ft_print_vertical_line(t_cub3D *data, t_vectors *vectors, uint32_t x)
 	double		step;
 	int			y;
 
-	step = (double)TEX_HEIGHT / vectors->line_height;
+	step = ((double)TEX_HEIGHT / (double)vectors->line_height);
 	vectors->tex_pos = (vectors->draw_start - HEIGHT
 		/ 2 + vectors->line_height /2) * step;
 	y = vectors->draw_start;
@@ -64,9 +64,9 @@ void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
 {
 	vectors->line_height = (int)(HEIGHT / vectors->perp_wall_dist);
 	//printf("line_height = %d\n", vectors->line_height);
-	vectors->draw_start = -vectors->line_height / 2 + HEIGHT / 2;
+	vectors->draw_start = -(vectors->line_height) / 2 + HEIGHT / 2;
 	if (vectors->draw_start < 0)
-		vectors->draw_start = 0;
+	vectors->draw_start = 0;
 	vectors->draw_end = vectors->line_height / 2 + HEIGHT / 2;
 	if (vectors->draw_end >= HEIGHT)
 		vectors->draw_end = HEIGHT - 1;
@@ -77,9 +77,12 @@ void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
 			+ vectors->perp_wall_dist * vectors->ray_dir_x;
 	vectors->wall_x -= floor(vectors->wall_x);
 	vectors->tex_x = (int)(vectors->wall_x * (double)TEX_WIDTH);
-	if ((vectors->side == 0 && vectors->delta_dist_x > 0)
+	if ((vectors->side == 0 && vectors->ray_dir_x > 0)
 		|| (vectors->side == 1 && vectors->ray_dir_y < 0))
 		vectors->tex_x = TEX_WIDTH - vectors->tex_x - 1;
+	/*if ((vectors->side == 0 && vectors->delta_dist_x > 0)
+		|| (vectors->side == 1 && vectors->ray_dir_y < 0))
+		vectors->tex_x = TEX_WIDTH - vectors->tex_x - 1;*/
 	ft_print_vertical_line(data, vectors, x);
 }
 
@@ -89,24 +92,24 @@ void	ft_get_side_dist(t_vectors *vectors)
 	{
 		vectors->step_x = -1;
 		vectors->side_dist_x = (vectors->pos_x
-				- (double)vectors->map_x) * vectors->delta_dist_x;
+				- vectors->map_x) * vectors->delta_dist_x;
 	}
 	else
 	{
 		vectors->step_x = 1;
-		vectors->side_dist_x = ((double)vectors->map_x + 1.0
+		vectors->side_dist_x = (vectors->map_x + 1.0
 				- vectors->pos_x) * vectors->delta_dist_x;
 	}
 	if (vectors->ray_dir_y < 0)
 	{
 		vectors->step_y = -1;
 		vectors->side_dist_y = (vectors->pos_y
-				+ (double)vectors->map_y) * vectors->delta_dist_y;
+				- vectors->map_y) * vectors->delta_dist_y;
 	}
 	else
 	{
 		vectors->step_y = 1;
-		vectors->side_dist_y = ((double)vectors->map_y + 1.0
+		vectors->side_dist_y = (vectors->map_y + 1.0
 				- vectors->pos_y) * vectors->delta_dist_y;
 	}
 }
@@ -135,6 +138,8 @@ void	ft_print_screen(t_cub3D *data, t_vectors *vectors)
 		vectors->delta_dist_y = 1e30;
 		if (vectors->ray_dir_y != 0)
 			vectors->delta_dist_y = fabs(1 / vectors->ray_dir_y);
+
+		printf("ray_dir_y: %lf | ray_dir_x: %lf\n", vectors->ray_dir_y, vectors->ray_dir_x);
 		ft_get_side_dist(vectors);
 		find_distance_to_walls(data, data->vectors);
 		print_columns(data, data->vectors, x);
