@@ -29,12 +29,12 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;97m"
 # define RESET "\033[0m"
-# define WIDTH 1080
-# define HEIGHT 720
+# define WIDTH 640
+# define HEIGHT 480
 # define TEX_WIDTH 64
 # define TEX_HEIGHT 64
 # define MOVESPEED 0.0125
-# define ROTSPEED 0.015
+# define ROTSPEED 0.1
 
 typedef enum s_states
 {
@@ -51,6 +51,14 @@ typedef struct s_rgb
 	int	g;
 	int	b;
 }		t_rgb;
+
+typedef struct s_input
+{
+	bool	w;
+	bool	s;
+	bool	a;
+	bool	d;
+}			t_input;
 
 typedef struct s_vectors
 {
@@ -112,6 +120,7 @@ typedef struct s_cub3D
 	t_rgb		f_colours;
 	t_rgb		c_colours;
 	t_list		*map_lst;
+	t_input		*input;
 	//t_player	*player;
 	//t_ray		*ray;
 	t_vectors	*vectors;

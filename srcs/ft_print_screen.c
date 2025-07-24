@@ -60,6 +60,11 @@ void	ft_print_vertical_line(t_cub3D *data, t_vectors *vectors, uint32_t x)
 	}
 }
 
+uint32_t	get_rgba(t_rgb colours)
+{
+	return (colours.r << 24 | colours.g << 16 | colours.b << 8 | 255);
+}
+
 void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
 {
 	vectors->line_height = (int)(HEIGHT / vectors->perp_wall_dist);
@@ -80,10 +85,20 @@ void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
 	if ((vectors->side == 0 && vectors->ray_dir_x > 0)
 		|| (vectors->side == 1 && vectors->ray_dir_y < 0))
 		vectors->tex_x = TEX_WIDTH - vectors->tex_x - 1;
-	/*if ((vectors->side == 0 && vectors->delta_dist_x > 0)
-		|| (vectors->side == 1 && vectors->ray_dir_y < 0))
-		vectors->tex_x = TEX_WIDTH - vectors->tex_x - 1;*/
+	int	y;
+	y = 0;
+	while (y < vectors->draw_start)
+	{
+		mlx_put_pixel(data->imgs->canvas, x, y, get_rgba(data->c_colours));
+		y++;
+	}
 	ft_print_vertical_line(data, vectors, x);
+	y = vectors->draw_end;
+	while (y < HEIGHT)
+	{
+		mlx_put_pixel(data->imgs->canvas, x, y, get_rgba(data->f_colours));
+		y++;
+	}
 }
 
 void	ft_get_side_dist(t_vectors *vectors)
