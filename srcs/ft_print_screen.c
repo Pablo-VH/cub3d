@@ -29,9 +29,19 @@ void	find_distance_to_walls(t_cub3D *data, t_vectors *vectors)
 		vectors->perp_wall_dist = vectors->side_dist_y - vectors->delta_dist_y;
 }
 
+uint32_t	get_color(t_vectors *vectors, t_cub3D *data)
+{
+	int		i;
+	uint8_t	*color;
+
+	i = (vectors->tex_y * TEX_WIDTH + vectors->tex_x)
+		* data->textures->hit->bytes_per_pixel;
+	color = &data->textures->hit->pixels[i];
+	return ((color[0] << 24) | (color[1] << 16) | (color[2] << 8) |color[3]);
+}
+
 void	ft_print_vertical_line(t_cub3D *data, t_vectors *vectors, uint32_t x)
 {
-	uint32_t	*tex_pix;
 	uint32_t	color;
 	double		step;
 	int			y;
@@ -40,23 +50,14 @@ void	ft_print_vertical_line(t_cub3D *data, t_vectors *vectors, uint32_t x)
 	vectors->tex_pos = (vectors->draw_start - HEIGHT
 		/ 2 + vectors->line_height /2) * step;
 	y = vectors->draw_start;
-	//printf("y = %d\n", y);
-	//printf("draw_end = %d\n", vectors->draw_end);
 	while (y < vectors->draw_end)
 	{
-		//printf("hola\n");
 		vectors->tex_y = (int)vectors->tex_pos & (TEX_HEIGHT - 1);
 		vectors->tex_pos += step;
-		// En ft_print_screen, antes del bucle principal
-		tex_pix = (uint32_t *)data->textures->hit->pixels;
-		//printf("%i\n", data->textures->hit->width);
-		//printf("tex_y = %d | tex_x = %d | width = %d | tex_y * width + tex_x = %d\n", vectors->tex_y, vectors->tex_x, data->textures->hit->width, vectors->tex_y * data->textures->hit->width + vectors->tex_x);
-		color = tex_pix[vectors->tex_y
-			* data->textures->hit->width + vectors->tex_x];
+		color = get_color(vectors, data);
 		mlx_put_pixel(data->imgs->canvas, x, (uint32_t)y, color);
 		y++;
 	}
-	//mlx_image_to_window(data->mlx, data->imgs->canvas, 0 ,0);
 }
 
 void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
