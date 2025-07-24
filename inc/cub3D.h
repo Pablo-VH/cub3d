@@ -125,19 +125,14 @@ typedef struct s_cub3D
 	char		*p_ea;
 	int			fd;
 }				t_cub3D;
-// if side == 0 we are looking to the East.
-// if side == 1 we are looking to the North.
-// if side == 2 we are looking to the Weast.
-// if side == 3 we are looking to the South.
 
-
+int		execute_game(t_cub3D *data);
 int		ft_are_invalid_characters(char *line, char *valid_characters);
 void	charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data);
 void	charge_color_info(char *line, t_rgb *colors, char *def, t_cub3D *data);
 void	charge_map_lst(char *line, t_cub3D *data);
 void	charge_t_info(char *line, char **recipient, char *def, t_cub3D *data);
 void	check_num(char **line, t_cub3D *data);
-int		execute_game(t_cub3D *data);
 void	ft_check_num_of_playrs(char *line, int *num_of_players, t_cub3D *data);
 void	ft_check_walls(char **map, int size);
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
