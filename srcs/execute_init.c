@@ -25,30 +25,25 @@ void	ft_move_player(t_cub3D *data, t_vectors *vectors, double move_speed)
 	}
 }
 
-void	ft_rotate(t_cub3D *data, double frame_time)
+void	ft_rotate(t_vectors *vectors, double frame_time, int direction)//!!!!!CUANDO EL JUJADOR EMPIEZA EN N O E ROTA EN EL SENTIDO CONTRARIO QUE SI EMPIEZA EN S O W!!!!!!!!!!!
 {
-	double	old_dir_x;
-	double	old_plane_x;
-	double	rot;
+	double	prev_dir_x;
+	double	prev_plane_x;
+	double	rotspeed;
 
-	old_dir_x = data->vectors->dir_x;
-	old_plane_x = data->vectors->plane_x;
-	rot = frame_time * 3.0;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
-	{
-		data->vectors->dir_x = data->vectors->dir_x * cos(rot) - data->vectors->dir_y * sin(rot);
-		data->vectors->dir_y = old_dir_x * sin(rot) + data->vectors->dir_y * cos(rot);
-		data->vectors->plane_x = data->vectors->plane_x * cos(rot) - data->vectors->plane_y * sin(rot);
-		data->vectors->plane_y = old_plane_x * sin(rot) + data->vectors->plane_y * cos(rot);
-	}	
-	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-	{
-		rot = -rot;
-		data->vectors->dir_x = data->vectors->dir_x * cos(rot) - data->vectors->dir_y * sin(rot);
-		data->vectors->dir_y = old_dir_x * sin(rot) + data->vectors->dir_y * cos(rot);
-		data->vectors->plane_x = data->vectors->plane_x * cos(rot) - data->vectors->plane_y * sin(rot);
-		data->vectors->plane_y = old_plane_x * sin(rot) + data->vectors->plane_y * cos(rot);
-	}
+	prev_dir_x = vectors->dir_x;
+	prev_plane_x = vectors->plane_x;
+	rotspeed = frame_time * 3.0;
+	if (direction)
+		rotspeed = -rotspeed;
+	vectors->dir_x = vectors->dir_x * cos(rotspeed)
+		- vectors->dir_y * sin(rotspeed);
+	vectors->dir_y = prev_dir_x * sin(rotspeed)
+		+ vectors->dir_y * cos(rotspeed);
+	vectors->plane_x = vectors->plane_x * cos(rotspeed)
+		- vectors->plane_y * sin(rotspeed);
+	vectors->plane_y = prev_plane_x * sin(rotspeed)
+		+ vectors->plane_y * cos(rotspeed);
 }
 
 void	ft_hook(void *param)
@@ -60,12 +55,15 @@ void	ft_hook(void *param)
 	double			current_time;
 
 	data = (t_cub3D *)param;
-	current_time = (double)clock() / CLOCKS_PER_SEC;
+	current_time = (double)clock() / CLOCKS_PER_SEC;//!!!!FUNCION PROHIBIDA!!!!!!!
 	frame_time = current_time - prev_time;
 	prev_time = current_time;
 	move_speed = frame_time * 5.0;
 	ft_move_player(data, data->vectors, move_speed);
-	ft_rotate(data, frame_time);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+		ft_rotate(data->vectors, frame_time, 1);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+		ft_rotate(data->vectors, frame_time, 0);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(data->mlx);
 	ft_print_screen(data, data->vectors);
@@ -82,7 +80,6 @@ int	execute_game(t_cub3D *data)
 	load_textures(data);
 	mlx_image_to_window(data->mlx, data->imgs->canvas, 0, 0);
 	mlx_loop_hook(data->mlx, ft_hook, data);
-	//mlx_key_hook(data->mlx, ft_move, data);
 	mlx_loop(data->mlx);
 	mlx_delete_image(data->mlx, data->imgs->floor);
 	mlx_delete_image(data->mlx, data->imgs->ceiling);

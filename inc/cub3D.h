@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <time.h>
 # include "../libft/libft.h"
 # include "MLX42.h"
 

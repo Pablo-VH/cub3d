@@ -83,7 +83,7 @@ int	main(int ac, char **av)
 	data = ft_alloc(sizeof(t_cub3D), 1);
 	parsing(av[1], data);
 	set_player_pos(data->map_arr, data);
-	printf("pos_x = %lf | pos_y = %lf | dir_x = %lf | dir_y = %lf | plane_x = %lf | plane_y = %lf\n", data->vectors->pos_x, data->vectors->pos_y, data->vectors->dir_x, data->vectors->dir_y, data->vectors->plane_x, data->vectors->plane_y);
+	//printf("pos_x = %lf | pos_y = %lf | dir_x = %lf | dir_y = %lf | plane_x = %lf | plane_y = %lf\n", data->vectors->pos_x, data->vectors->pos_y, data->vectors->dir_x, data->vectors->dir_y, data->vectors->plane_x, data->vectors->plane_y);
 	execute_game(data);
 	ft_alloc(0, 0);
 }

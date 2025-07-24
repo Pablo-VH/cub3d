@@ -1,7 +1,7 @@
-SO textures/test/south.xpm
-WE textures/test/west.xpm
-EA textures/test/east.xpm
-      NO textures/test/east.xpm
+SO textures/eagle.png
+WE textures/eagle.png
+EA textures/eagle.png
+      NO textures/eagle.png
 
 F 175, 20  ,255 
 C 1,  255,200
@@ -16,7 +16,7 @@ C 1,  255,200
 10001
 10001
 11001
-10W01
+10S01
 10001
 10001
 10001

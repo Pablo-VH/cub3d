@@ -154,7 +154,7 @@ void	ft_print_screen(t_cub3D *data, t_vectors *vectors)
 		if (vectors->ray_dir_y != 0)
 			vectors->delta_dist_y = fabs(1 / vectors->ray_dir_y);
 
-		printf("ray_dir_y: %lf | ray_dir_x: %lf\n", vectors->ray_dir_y, vectors->ray_dir_x);
+		//printf("ray_dir_y: %lf | ray_dir_x: %lf\n", vectors->ray_dir_y, vectors->ray_dir_x);
 		ft_get_side_dist(vectors);
 		find_distance_to_walls(data, data->vectors);
 		print_columns(data, data->vectors, x);
