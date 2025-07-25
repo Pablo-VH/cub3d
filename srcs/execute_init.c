@@ -1,6 +1,5 @@
 #include "cub3D.h"
 
-
 void	ft_move_player(t_cub3D *data, t_vectors *vectors, double move_speed)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
@@ -25,7 +24,7 @@ void	ft_move_player(t_cub3D *data, t_vectors *vectors, double move_speed)
 	}
 }
 
-void	ft_rotate(t_vectors *vectors, double frame_time, int direction)//!!!!!CUANDO EL JUJADOR EMPIEZA EN N O E ROTA EN EL SENTIDO CONTRARIO QUE SI EMPIEZA EN S O W!!!!!!!!!!!
+void	ft_rotate(t_vectors *vectors, double frame_time, int direction)
 {
 	double	prev_dir_x;
 	double	prev_plane_x;
@@ -34,8 +33,9 @@ void	ft_rotate(t_vectors *vectors, double frame_time, int direction)//!!!!!CUAND
 	prev_dir_x = vectors->dir_x;
 	prev_plane_x = vectors->plane_x;
 	rotspeed = frame_time * 3.0;
+	rotspeed = -fabs(rotspeed);
 	if (direction)
-		rotspeed = -rotspeed;
+		rotspeed = fabs(rotspeed);
 	vectors->dir_x = vectors->dir_x * cos(rotspeed)
 		- vectors->dir_y * sin(rotspeed);
 	vectors->dir_y = prev_dir_x * sin(rotspeed)
@@ -55,11 +55,12 @@ void	ft_hook(void *param)
 	double			current_time;
 
 	data = (t_cub3D *)param;
-	current_time = (double)clock() / CLOCKS_PER_SEC;//!!!!FUNCION PROHIBIDA!!!!!!!
+	current_time = mlx_get_time();
 	frame_time = current_time - prev_time;
 	prev_time = current_time;
 	move_speed = frame_time * 5.0;
 	ft_move_player(data, data->vectors, move_speed);
+	handle_mouse_rotation(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		ft_rotate(data->vectors, frame_time, 1);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
@@ -76,13 +77,16 @@ int	execute_game(t_cub3D *data)
 	if (!data->mlx)
 		return (EXIT_FAILURE);
 	data->textures = ft_alloc(sizeof(t_texture), 1);
-	data->imgs = ft_alloc(sizeof(t_img), 1);
 	load_textures(data);
-	mlx_image_to_window(data->mlx, data->imgs->canvas, 0, 0);
+	mlx_image_to_window(data->mlx, data->canvas, 0, 0);
+	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
-	mlx_delete_image(data->mlx, data->imgs->floor);
-	mlx_delete_image(data->mlx, data->imgs->ceiling);
+	mlx_delete_image(data->mlx, data->canvas);
+	mlx_delete_texture(data->textures->n);
+	mlx_delete_texture(data->textures->s);
+	mlx_delete_texture(data->textures->e);
+	mlx_delete_texture(data->textures->w);
 	mlx_terminate(data->mlx);
 	return (0);
 }

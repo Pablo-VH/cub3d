@@ -94,7 +94,7 @@ typedef struct s_vectors
 	uint32_t	color;
 }			t_vectors;
 
-typedef struct s_img
+/*typedef struct s_img
 {
 	mlx_image_t		*ceiling;
 	mlx_image_t		*floor;
@@ -103,8 +103,8 @@ typedef struct s_img
 	mlx_image_t		*e;
 	mlx_image_t		*w;	
 	mlx_image_t		*canvas;
-//	mlx_image_t		*hit;
-}				t_img;
+	mlx_image_t		*hit;
+}				t_img;*/
 
 typedef struct	s_textures
 {
@@ -126,7 +126,7 @@ typedef struct s_cub3D
 	//t_ray		*ray;
 	t_vectors	*vectors;
 	mlx_t		*mlx;
-	t_img		*imgs;
+	mlx_image_t	*canvas;
 	t_texture	*textures;
 	char		**map_arr;
 	char		*p_no;
@@ -146,10 +146,12 @@ void	check_num(char **line, t_cub3D *data);
 void	ft_check_num_of_playrs(char *line, int *num_of_players, t_cub3D *data);
 void	ft_check_walls(char **map, int size);
 void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
+void	ft_hook(void *param);
 void	ft_perror_and_exit(char *s, int exit_key);
 void	ft_print_message_and_exit(char *s, int exit_key);
 void	ft_print_screen(t_cub3D *data, t_vectors *vectors);
-void	ft_terminate_mlx_and_exit(t_cub3D *data);
+void	ft_terminate_mlx_and_exit(t_cub3D *data, int wd, char *s, int ext);
+void	handle_mouse_rotation(t_cub3D *data);
 void    load_textures(t_cub3D *data);
 void	parsing(char *av, t_cub3D *data);
 

@@ -51,12 +51,26 @@ void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data)
 	exit(exit_key);
 }
 
-void	ft_terminate_mlx_and_exit(t_cub3D *data)
+void	ft_terminate_mlx_and_exit(t_cub3D *data, int wd, char *s, int ext)
 {
-	if (data->imgs->ceiling)
-		mlx_delete_image(data->mlx, data->imgs->ceiling);
-	if (data->imgs->floor)
-		mlx_delete_image(data->mlx, data->imgs->floor);
+	if (data->canvas)
+		mlx_delete_image(data->mlx, data->canvas);
+	if (data->textures)
+	{
+		if (data->textures->n)
+			mlx_delete_texture(data->textures->n);
+		if (data->textures->s)
+			mlx_delete_texture(data->textures->s);
+		if (data->textures->e)
+			mlx_delete_texture(data->textures->e);
+		if (data->textures->w)
+			mlx_delete_texture(data->textures->w);
+	}
+	if (wd)
+	{
+		mlx_close_hook(data->mlx, ft_hook, data);
+		mlx_close_window(data->mlx);
+	}
 	mlx_terminate(data->mlx);
-	exit(EXIT_FAILURE);
+	ft_print_message_and_exit(s, ext);
 }

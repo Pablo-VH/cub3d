@@ -55,7 +55,7 @@ void	ft_print_vertical_line(t_cub3D *data, t_vectors *vectors, uint32_t x)
 		vectors->tex_y = (int)vectors->tex_pos & (TEX_HEIGHT - 1);
 		vectors->tex_pos += step;
 		color = get_color(vectors, data);
-		mlx_put_pixel(data->imgs->canvas, x, (uint32_t)y, color);
+		mlx_put_pixel(data->canvas, x, (uint32_t)y, color);
 		y++;
 	}
 }
@@ -89,14 +89,14 @@ void	print_columns(t_cub3D *data, t_vectors *vectors, uint32_t x)
 	y = 0;
 	while (y < vectors->draw_start)
 	{
-		mlx_put_pixel(data->imgs->canvas, x, y, get_rgba(data->c_colours));
+		mlx_put_pixel(data->canvas, x, y, get_rgba(data->c_colours));
 		y++;
 	}
 	ft_print_vertical_line(data, vectors, x);
 	y = vectors->draw_end;
 	while (y < HEIGHT)
 	{
-		mlx_put_pixel(data->imgs->canvas, x, y, get_rgba(data->f_colours));
+		mlx_put_pixel(data->canvas, x, y, get_rgba(data->f_colours));
 		y++;
 	}
 }

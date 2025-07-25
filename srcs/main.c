@@ -17,7 +17,7 @@ double	fill_values(int row, int column)
 	static const double values[][4] = {
 	{-1.00, +1.00,  0.00,  0.00}, // dir_x
 	{ 0.00,  0.00, +1.00, -1.00}, // dir_y
-	{ 0.00,  0.00, -0.66, +0.66}, // plane_x
+	{ 0.00,  0.00, +0.66, -0.66}, // plane_x
 	{+0.66, -0.66,  0.00,  0.00}  // plane_y
 	};
 	return (values[row][column]);
