@@ -115,6 +115,14 @@ typedef struct	s_textures
 	mlx_texture_t	*hit;
 }				t_texture;
 
+typedef struct s_bonus
+{
+	int		mouse_x;
+	int		mouse_y;
+	double	offset;
+	int		center_x;
+}		t_bonus;
+
 typedef struct s_cub3D
 {
 	t_list		*file;
@@ -122,9 +130,8 @@ typedef struct s_cub3D
 	t_rgb		c_colours;
 	t_list		*map_lst;
 	t_input		*input;
-	//t_player	*player;
-	//t_ray		*ray;
 	t_vectors	*vectors;
+	//t_bonus		*bonus;
 	mlx_t		*mlx;
 	mlx_image_t	*canvas;
 	t_texture	*textures;
@@ -134,6 +141,10 @@ typedef struct s_cub3D
 	char		*p_we;
 	char		*p_ea;
 	int			fd;
+	int			mouse_x;
+	int			mouse_y;
+	double		offset;
+	int			center_x;
 }				t_cub3D;
 
 int		execute_game(t_cub3D *data);
