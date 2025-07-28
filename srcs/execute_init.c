@@ -1,26 +1,51 @@
 #include "cub3D.h"
 
-void	ft_move_player(t_cub3D *data, t_vectors *vectors, double move_speed)
+void	ft_move_ad(t_cub3D *data, t_vectors *vectors, double move_speed)
 {
-	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
-	{
-		vectors->pos_x += vectors->dir_x * move_speed;
-		vectors->pos_y += vectors->dir_y * move_speed;
-	}
-	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
-	{
-		vectors->pos_x -= vectors->dir_x * move_speed;
-		vectors->pos_y -= vectors->dir_y * move_speed;
-	}
+	double	next_x;
+	double	next_y;
+
 	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
 	{
-		vectors->pos_x -= vectors->plane_x * move_speed;
-		vectors->pos_y -= vectors->plane_y * move_speed;
+		next_x = vectors->pos_x - vectors->plane_x * move_speed;
+		next_y = vectors->pos_y - vectors->plane_y * move_speed;
+		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
+			vectors->pos_x = next_x;
+		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
+			vectors->pos_y = next_y;
 	}
 	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
 	{
-		vectors->pos_x += vectors->plane_x * move_speed;
-		vectors->pos_y += vectors->plane_y * move_speed;
+		next_x = vectors->pos_x + vectors->plane_x * move_speed;
+		next_y = vectors->pos_y + vectors->plane_y * move_speed;
+		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
+			vectors->pos_x = next_x;
+		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
+			vectors->pos_y = next_y;
+	}
+}
+
+void	ft_move_ws(t_cub3D *data, t_vectors *vectors, double move_speed)
+{
+	double	next_x;
+	double	next_y;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
+	{
+		next_x = vectors->pos_x + vectors->dir_x * move_speed;
+		next_y = vectors->pos_y + vectors->dir_y * move_speed;
+		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
+			vectors->pos_x = next_x;
+		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
+			vectors->pos_y = next_y;
+	}
+	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+	{
+		next_x = vectors->pos_x - vectors->dir_x * move_speed;
+		next_y = vectors->pos_y - vectors->dir_y * move_speed;
+		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
+			vectors->pos_x = next_x;
+		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
+			vectors->pos_y = next_y;
 	}
 }
 
@@ -59,7 +84,8 @@ void	ft_hook(void *param)
 	frame_time = current_time - prev_time;
 	prev_time = current_time;
 	move_speed = frame_time * 5.0;
-	ft_move_player(data, data->vectors, move_speed);
+	ft_move_ws(data, data->vectors, move_speed);
+	ft_move_ad(data, data->vectors, move_speed);
 	handle_mouse_rotation(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		ft_rotate(data->vectors, frame_time, 1);
