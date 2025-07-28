@@ -14,12 +14,13 @@
 
 double	fill_values(int row, int column)
 {
-	static const double values[][4] = {
-	{-1.00, +1.00,  0.00,  0.00}, // dir_x
-	{ 0.00,  0.00, +1.00, -1.00}, // dir_y
-	{ 0.00,  0.00, +0.66, -0.66}, // plane_x
-	{+0.66, -0.66,  0.00,  0.00}  // plane_y
+	static const double	values[][4] = {
+	{-1.00, +1.00, +0.00, +0.00},
+	{+0.00, +0.00, +1.00, -1.00},
+	{+0.00, +0.00, +0.66, -0.66},
+	{+0.66, -0.66, +0.00, +0.00}
 	};
+
 	return (values[row][column]);
 }
 
@@ -44,7 +45,6 @@ void	get_player_values(t_cub3D *data, int x, int y)
 	data->vectors->dir_y = fill_values(i++, player_dir);
 	data->vectors->plane_x = fill_values(i++, player_dir);
 	data->vectors->plane_y = fill_values(i++, player_dir);
-	//printf("pos_x = %lf | pos_y = %lf | dir_x = %lf | dir_y = %lf | plane_x = %lf | plane_y = %lf\n", data->vectors->pos_x, data->vectors->pos_y, data->vectors->dir_x, data->vectors->dir_y, data->vectors->plane_x, data->vectors->plane_y);
 }
 
 void	set_player_pos(char **map, t_cub3D *data)
@@ -69,7 +69,6 @@ void	set_player_pos(char **map, t_cub3D *data)
 		}
 		y++;
 	}
-	
 }
 
 int	main(int ac, char **av)
@@ -83,7 +82,6 @@ int	main(int ac, char **av)
 	data = ft_alloc(sizeof(t_cub3D), 1);
 	parsing(av[1], data);
 	set_player_pos(data->map_arr, data);
-	//printf("pos_x = %lf | pos_y = %lf | dir_x = %lf | dir_y = %lf | plane_x = %lf | plane_y = %lf\n", data->vectors->pos_x, data->vectors->pos_y, data->vectors->dir_x, data->vectors->dir_y, data->vectors->plane_x, data->vectors->plane_y);
 	execute_game(data);
 	ft_alloc(0, 0);
 }

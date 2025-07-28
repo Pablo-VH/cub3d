@@ -1,51 +1,38 @@
 #include "cub3D.h"
 
-void	ft_move_ad(t_cub3D *data, t_vectors *vectors, double move_speed)
+void	ft_check_collision(t_cub3D *data, t_vectors *vectors)
 {
-	double	next_x;
-	double	next_y;
+	if (data->map_arr[(int)(vectors->next_x)][(int)(vectors->pos_y)] != '1')
+		vectors->pos_x = vectors->next_x;
+	if (data->map_arr[(int)(vectors->pos_x)][(int)(vectors->next_y)] != '1')
+		vectors->pos_y = vectors->next_y;
+}
 
+void	ft_move(t_cub3D *data, t_vectors *vectors, double move_speed)
+{
 	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
 	{
-		next_x = vectors->pos_x - vectors->plane_x * move_speed;
-		next_y = vectors->pos_y - vectors->plane_y * move_speed;
-		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
-			vectors->pos_x = next_x;
-		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
-			vectors->pos_y = next_y;
+		vectors->next_x = vectors->pos_x - vectors->plane_x * move_speed;
+		vectors->next_y = vectors->pos_y - vectors->plane_y * move_speed;
+		ft_check_collision(data, vectors);
 	}
 	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
 	{
-		next_x = vectors->pos_x + vectors->plane_x * move_speed;
-		next_y = vectors->pos_y + vectors->plane_y * move_speed;
-		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
-			vectors->pos_x = next_x;
-		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
-			vectors->pos_y = next_y;
+		vectors->next_x = vectors->pos_x + vectors->plane_x * move_speed;
+		vectors->next_y = vectors->pos_y + vectors->plane_y * move_speed;
+		ft_check_collision(data, vectors);
 	}
-}
-
-void	ft_move_ws(t_cub3D *data, t_vectors *vectors, double move_speed)
-{
-	double	next_x;
-	double	next_y;
 	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
 	{
-		next_x = vectors->pos_x + vectors->dir_x * move_speed;
-		next_y = vectors->pos_y + vectors->dir_y * move_speed;
-		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
-			vectors->pos_x = next_x;
-		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
-			vectors->pos_y = next_y;
+		vectors->next_x = vectors->pos_x + vectors->dir_x * move_speed;
+		vectors->next_y = vectors->pos_y + vectors->dir_y * move_speed;
+		ft_check_collision(data, vectors);
 	}
 	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
 	{
-		next_x = vectors->pos_x - vectors->dir_x * move_speed;
-		next_y = vectors->pos_y - vectors->dir_y * move_speed;
-		if (data->map_arr[(int)(next_x)][(int)(vectors->pos_y)] != '1')
-			vectors->pos_x = next_x;
-		if (data->map_arr[(int)(vectors->pos_x)][(int)(next_y)] != '1')
-			vectors->pos_y = next_y;
+		vectors->next_x = vectors->pos_x - vectors->dir_x * move_speed;
+		vectors->next_y = vectors->pos_y - vectors->dir_y * move_speed;
+		ft_check_collision(data, vectors);
 	}
 }
 
@@ -84,9 +71,9 @@ void	ft_hook(void *param)
 	frame_time = current_time - prev_time;
 	prev_time = current_time;
 	move_speed = frame_time * 5.0;
-	ft_move_ws(data, data->vectors, move_speed);
-	ft_move_ad(data, data->vectors, move_speed);
+	ft_move(data, data->vectors, move_speed);
 	handle_mouse_rotation(data);
+	ft_door(data, data->vectors);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		ft_rotate(data->vectors, frame_time, 1);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
@@ -99,20 +86,20 @@ void	ft_hook(void *param)
 int	execute_game(t_cub3D *data)
 {
 	data->input = ft_alloc(sizeof(t_input), 1);
-	data->mlx = mlx_init(WIDTH, HEIGHT, "Raycaster MLX42", true);
+	data->mlx = mlx_init(WIDTH, HEIGHT, "DOOMZILLA", true);
 	if (!data->mlx)
 		return (EXIT_FAILURE);
 	data->textures = ft_alloc(sizeof(t_texture), 1);
 	load_textures(data);
+	data->textures->godzilla = mlx_load_png("textures/godzilla.png");
+	data->godz = mlx_texture_to_image(data->mlx, data->textures->godzilla);
+	mlx_image_to_window(data->mlx, data->godz, 0, 0);
+	mlx_set_instance_depth(data->godz->instances, 1);
 	mlx_image_to_window(data->mlx, data->canvas, 0, 0);
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
-	mlx_delete_image(data->mlx, data->canvas);
-	mlx_delete_texture(data->textures->n);
-	mlx_delete_texture(data->textures->s);
-	mlx_delete_texture(data->textures->e);
-	mlx_delete_texture(data->textures->w);
+	ft_clean_images(data);
 	mlx_terminate(data->mlx);
 	return (0);
 }

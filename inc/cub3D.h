@@ -85,35 +85,26 @@ typedef struct s_vectors
 	double		side_dist_y;
 	double		delta_dist_x;
 	double		delta_dist_y;
-	double		perp_wall_dist;
+	double		perp_dist;
 	double		step;
 	double		tex_pos;
+	double		next_x;
+	double		next_y;
 	int			step_x;
 	int			step_y;
 	int			side;
 	uint32_t	color;
 }			t_vectors;
 
-/*typedef struct s_img
+typedef struct s_textures
 {
-	mlx_image_t		*ceiling;
-	mlx_image_t		*floor;
-	mlx_image_t		*n;
-	mlx_image_t		*s;
-	mlx_image_t		*e;
-	mlx_image_t		*w;	
-	mlx_image_t		*canvas;
-	mlx_image_t		*hit;
-}				t_img;*/
-
-typedef struct	s_textures
-{
+	mlx_texture_t	*godzilla;
 	mlx_texture_t	*n;
 	mlx_texture_t	*s;
 	mlx_texture_t	*e;
 	mlx_texture_t	*w;
 	mlx_texture_t	*hit;
-}				t_texture;
+}					t_texture;
 
 typedef struct s_bonus
 {
@@ -131,9 +122,9 @@ typedef struct s_cub3D
 	t_list		*map_lst;
 	t_input		*input;
 	t_vectors	*vectors;
-	//t_bonus		*bonus;
 	mlx_t		*mlx;
 	mlx_image_t	*canvas;
+	mlx_image_t	*godz;
 	t_texture	*textures;
 	char		**map_arr;
 	char		*p_no;
@@ -147,23 +138,33 @@ typedef struct s_cub3D
 	int			center_x;
 }				t_cub3D;
 
-int		execute_game(t_cub3D *data);
-int		ft_are_invalid_characters(char *line, char *valid_characters);
-void	charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data);
-void	charge_color_info(char *line, t_rgb *colors, char *def, t_cub3D *data);
-void	charge_map_lst(char *line, t_cub3D *data);
-void	charge_t_info(char *line, char **recipient, char *def, t_cub3D *data);
-void	check_num(char **line, t_cub3D *data);
-void	ft_check_num_of_playrs(char *line, int *num_of_players, t_cub3D *data);
-void	ft_check_walls(char **map, int size);
-void	ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
-void	ft_hook(void *param);
-void	ft_perror_and_exit(char *s, int exit_key);
-void	ft_print_message_and_exit(char *s, int exit_key);
-void	ft_print_screen(t_cub3D *data, t_vectors *vectors);
-void	ft_terminate_mlx_and_exit(t_cub3D *data, int wd, char *s, int ext);
-void	handle_mouse_rotation(t_cub3D *data);
-void    load_textures(t_cub3D *data);
-void	parsing(char *av, t_cub3D *data);
+int			execute_game(t_cub3D *data);
+int			ft_are_invalid_characters(char *line, char *valid_characters);
+void		charge_color_data(int n, t_rgb *colors, char *line, t_cub3D *data);
+void		charge_color_info(char *line, t_rgb *colors,
+				char *def, t_cub3D *data);
+void		charge_map_lst(char *line, t_cub3D *data);
+void		charge_t_info(char *line, char **recipient,
+				char *def, t_cub3D *data);
+void		check_num(char **line, t_cub3D *data);
+void		ft_clean_images(t_cub3D *data);
+void		ft_check_num_of_playrs(char *line,
+				int *num_of_players, t_cub3D *data);
+void		ft_check_walls(char **map, int size);
+void		ft_close_fd_and_exit(char *s, int exit_key, t_cub3D *data);
+void		ft_door(t_cub3D *data, t_vectors *vectors);
+void		ft_hook(void *param);
+void		ft_paint(t_cub3D *data, t_vectors *vectors, int x);
+void		ft_perror_and_exit(char *s, int exit_key);
+void		ft_print_message_and_exit(char *s, int exit_key);
+void		ft_print_screen(t_cub3D *data, t_vectors *vectors);
+void		ft_print_vertical_line(t_cub3D *data,
+				t_vectors *vectors, uint32_t x);
+void		ft_terminate_mlx_and_exit(t_cub3D *data, int wd, char *s, int ext);
+uint32_t	get_color(t_vectors *vectors, t_cub3D *data);
+uint32_t	get_rgba(t_rgb colours);
+void		handle_mouse_rotation(t_cub3D *data);
+void		load_textures(t_cub3D *data);
+void		parsing(char *av, t_cub3D *data);
 
 #endif

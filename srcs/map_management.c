@@ -32,7 +32,7 @@ void	ft_check_walls(char **map, int size)
 	int		j;
 	char	*str;
 
-	str = "0NSWE2";
+	str = "0NSWE";
 	i = 0;
 	while (map[i])
 	{
