@@ -108,7 +108,7 @@ int	execute_game(t_cub3D *data)
 	data->textures->godzilla = mlx_load_png("textures/Manos.png");
 	data->godz = mlx_texture_to_image(data->mlx, data->textures->godzilla);
 	mlx_image_to_window(data->mlx, data->canvas, 0, 0);
-	mlx_image_to_window(data->mlx, data->godz, WIDTH / 5, HEIGHT / 3);
+	mlx_image_to_window(data->mlx, data->godz,0, 0);
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
