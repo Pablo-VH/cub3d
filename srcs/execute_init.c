@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_init.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pavicent <pavicent@student.42madrid>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/29 11:40:14 by pavicent          #+#    #+#             */
+/*   Updated: 2025/07/29 11:40:15 by pavicent         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 void	ft_check_collision(t_cub3D *data, t_vectors *vectors)
 {
-	if (data->map_arr[(int)(vectors->next_x)][(int)(vectors->pos_y)] != '1')
+	if (data->map_arr[(int)(vectors->next_x)][(int)(vectors->pos_y)] != '1'
+		&& data->map_arr[(int)(vectors->next_x)][(int)(vectors->pos_y)] != ' ')
 		vectors->pos_x = vectors->next_x;
-	if (data->map_arr[(int)(vectors->pos_x)][(int)(vectors->next_y)] != '1')
+	if (data->map_arr[(int)(vectors->pos_x)][(int)(vectors->next_y)] != '1'
+		&& data->map_arr[(int)(vectors->pos_x)][(int)(vectors->next_y)] != ' ')
 		vectors->pos_y = vectors->next_y;
 }
 
@@ -91,11 +105,10 @@ int	execute_game(t_cub3D *data)
 		return (EXIT_FAILURE);
 	data->textures = ft_alloc(sizeof(t_texture), 1);
 	load_textures(data);
-	data->textures->godzilla = mlx_load_png("textures/godzilla.png");
+	data->textures->godzilla = mlx_load_png("textures/Manos.png");
 	data->godz = mlx_texture_to_image(data->mlx, data->textures->godzilla);
-	mlx_image_to_window(data->mlx, data->godz, 0, 0);
-	mlx_set_instance_depth(data->godz->instances, 1);
 	mlx_image_to_window(data->mlx, data->canvas, 0, 0);
+	mlx_image_to_window(data->mlx, data->godz, WIDTH / 5, HEIGHT / 3);
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);

@@ -25,7 +25,7 @@ SRCS        := $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 OBJS        := $(addprefix $(OBJS_DIR)/, $(SRCS_FILES:.c=.o))
 
 # --------------------🎯 Reglas --------------------
-all: $(NAME)
+all: submodules $(NAME)
 
 $(NAME): $(LIBFT) $(MLX_LIB) $(OBJS)
 	@echo "🎮 Compilando $(NAME)..."
@@ -48,6 +48,12 @@ $(MLX_LIB):
 	@cmake --build $(MLX_BUILD) > /dev/null
 	@echo "🖼️  MLX42 compilado!"
 
+submodules:
+	@echo "🔄 Actualizando submódulos..."
+	@git submodule init
+	@git submodule update --remote
+	@echo "✅ Submódulos actualizados."
+
 clean:
 	@rm -rf $(OBJS_DIR)
 	@make fclean -C $(LIBFT_DIR)
@@ -60,4 +66,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re submodules
