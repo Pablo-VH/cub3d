@@ -22,7 +22,9 @@ static void	ft_check_adjacent_boxes(char **map, int i, int j, int size)
 		|| (j != 0 && ft_strchr(str, map[i][j - 1]))
 		|| ft_strchr(str, map[i][j + 1])
 		|| (i < (size - 1) && (ft_strchr(str, map[i + 1][j + 1])))
-		|| (i != 0 && j != 0 && (ft_strchr(str, map[i - 1][j - 1]))))
+		|| ((i != 0 && j != 0) && (ft_strchr(str, map[i - 1][j - 1])))
+		|| ((i < size -1 && j != 0) && (ft_strchr(str, map[i + 1][j - 1])))
+		|| ((i != 0) && (ft_strchr(str, map[i - 1][j + 1]))))
 		ft_print_message_and_exit("Map not properly enclosed by walls", 25);
 }
 
